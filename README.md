@@ -1,29 +1,29 @@
 # grocery_store
 ### Deployment
 
-# clone the repo
+1. clone the repo
 git clone repo
 
-# update brew
+2. update brew
 brew update
 
-# install mysql
+3. install mysql
 brew install mysql
 
-# start mysql
+4. start mysql
 mysql.server start
 
-# create database
+5. create database
 mysql -u root -e ‘create database grocery_store_database’
 
-# create database tables
+6. create database tables
 knex migrate:latest
 
-# install app dependencies
+7. install app dependencies
 cd dir
 npm install
 
-# start app
+8. start app
 node server.js
 
 
