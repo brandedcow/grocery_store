@@ -19,6 +19,5 @@ var api = require('bookshelf-api')({
 })
 
 router.use('/product', api)
-router.use('/address', api)
 
 module.exports = router
