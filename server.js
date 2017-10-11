@@ -9,16 +9,24 @@ var dotenv = require('dotenv');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
 var request = require('request');
+var bookshelf = require('./config/bookshelf');
 
 // Load environment variables from .env file
 dotenv.load();
 
-// Models
+// Models & Collections
 var User = require('./models/User');
+var Address = require('./models/Address');
+var Product = require('./models/Product');
+var Addresses = bookshelf.Collection.extend({model: Address})
+var Products = bookshelf.Collection.extend({model: Product})
 
 // Controllers
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
+
+// API
+var api = require('./routes/api');
 
 var app = express();
 
@@ -30,6 +38,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/api/v1/', api);
 
 app.use(function(req, res, next) {
   req.isAuthenticated = function() {
