@@ -16,17 +16,14 @@ dotenv.load();
 
 // Models & Collections
 var User = require('./models/User');
-var Address = require('./models/Address');
+// var Address = require('./models/Address');
 var Product = require('./models/Product');
-var Addresses = bookshelf.Collection.extend({model: Address})
-var Products = bookshelf.Collection.extend({model: Product})
+// var Addresses = bookshelf.Collection.extend({model: Address})
+// var Products = bookshelf.Collection.extend({model: Product})
 
 // Controllers
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
-
-// API
-var api = require('./routes/api');
 
 var app = express();
 
@@ -39,7 +36,10 @@ app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/v1/', api);
+// API
+var kalamata = require('kalamata');
+var api = kalamata(app, {apiRoot:'/api/v1'});
+api.expose(Product)
 
 app.use(function(req, res, next) {
   req.isAuthenticated = function() {

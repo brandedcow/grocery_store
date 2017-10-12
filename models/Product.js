@@ -1,7 +1,7 @@
 var bookshelf = require('../config/bookshelf');
 
 var Product = bookshelf.Model.extend({
-  tableName: 'products'
+  tableName: 'products',
 })
 
 module.exports = Product;
