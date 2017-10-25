@@ -1,30 +1,44 @@
 # grocery_store
 ### Deployment
 
+### Mac Instructions
 1. clone the repo
 `git clone https://github.com/brandedcow/grocery_store.git`
 
-2. update brew
-`brew update`
-
-3. install mysql
-`brew install mysql`
-
-4. start mysql
-`mysql.server start`
-
-5. create database
-`mysql -u root -e ‘create database grocery_store_database’`
-
-6. create database tables
-`knex migrate:latest
-`
-7. install app dependencies
+2. install app dependencies
 ``cd grocery_store
 npm install``
 
-8. start app
+3. start app
 `node server.js`
+
+Backend Setup:
+
+4. install mysql
+`brew update && brew install mysql`
+
+5. start mysql
+`mysql.server start`
+
+6. create database
+`mysql -u root -e 'create database grocery_store_database'`
+
+7. migrate tables
+`knex migrate:latest`
+
+### Windows instructions
+
+1. clone repo
+`git clone https://github.com/brandedcow/grocery_store.git`
+
+2. install node
+`https://nodejs.org/en/`
+
+3. go to directory grocery_store and install dependencies
+`npm install`
+
+4. start server
+`npm start`
 
 
 ### Configuration
