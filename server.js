@@ -16,10 +16,7 @@ dotenv.load();
 
 // Models & Collections
 var User = require('./models/User');
-// var Address = require('./models/Address');
 var Product = require('./models/Product');
-// var Addresses = bookshelf.Collection.extend({model: Address})
-// var Products = bookshelf.Collection.extend({model: Product})
 
 // Controllers
 var userController = require('./controllers/user');

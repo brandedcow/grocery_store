@@ -9,7 +9,7 @@ var User = require('../models/User');
 
 function generateToken(user) {
   var payload = {
-    iss: 'my.domain.com',
+    iss: 'www.ofs.com',
     sub: user.id,
     iat: moment().unix(),
     exp: moment().add(7, 'days').unix()
@@ -31,7 +31,7 @@ exports.ensureAuthenticated = function(req, res, next) {
    * POST /login
    * Sign in with email and password
    */
-  exports.loginPost = function(req, res, next) {
+exports.loginPost = function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('email', 'Email cannot be blank').notEmpty();
     req.assert('password', 'Password cannot be blank').notEmpty();
@@ -89,6 +89,8 @@ exports.signupPost = function(req, res, next) {
         return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
       }
     });
+
+
 };
 
 
