@@ -40,6 +40,21 @@ Backend Setup:
 4. start server
 `npm start`
 
+Backend Setup:
+
+5. install mysql via Windows installer
+`use Developer Settings`
+
+6. take care of any dependencies required by mysql
+`Could include microsoft visual c++ distributables or .net frameworks`
+
+7. Using MySQL Notifier, start instance
+
+8. Using MySQL WorkBench, create new SCHEMA called grocery_store_database
+
+9. migrate tables
+`knex migrate:latest`
+
 
 ### Configuration
 - **Platform:** node
