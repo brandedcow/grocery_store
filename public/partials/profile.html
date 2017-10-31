@@ -22,35 +22,6 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-3">Gender</label>
-          <div class="col-sm-4">
-            <label class="radio-inline radio col-sm-4">
-              <input type="radio" name="gender" value="male" ng-checked="profile.gender === 'male'"><span>Male</span>
-            </label>
-            <label class="radio-inline col-sm-4">
-              <input type="radio" name="gender" value="female" ng-checked="profile.gender === 'female'"><span>Female</span>
-            </label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="location" class="col-sm-3">Location</label>
-          <div class="col-sm-7">
-            <input type="text" name="location" id="location" class="form-control" ng-model="profile.location">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="website" class="col-sm-3">Website</label>
-          <div class="col-sm-7">
-            <input type="text" name="website" id="website" class="form-control" ng-model="profile.website">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3">Gravatar</label>
-          <div class="col-sm-4">
-            <img ng-src="{{profile.gravatar}}" class="profile" width="100" height="100">
-          </div>
-        </div>
-        <div class="form-group">
           <div class="col-sm-offset-3 col-sm-4">
             <button type="submit" class="btn btn-success">Update Profile</button>
           </div>
@@ -82,7 +53,7 @@
       </form>
     </div>
   </div>
-  <div class="panel">
+  <!-- <div class="panel">
     <div class="panel-body">
       <div class="form-horizontal">
         <legend>Linked Accounts</legend>
@@ -92,7 +63,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="panel">
     <div class="panel-body">
       <form ng-submit="deleteAccount()" class="form-horizontal">
