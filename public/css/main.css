@@ -281,3 +281,10 @@ textarea {
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
+
+/* Products Page */
+/* ------------------------- */
+
+.products-page {
+  background-image: url(../images/plant.jpg);
+}

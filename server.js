@@ -17,6 +17,7 @@ dotenv.load();
 // Models & Collections
 var User = require('./models/User');
 var Product = require('./models/Product');
+var Category = require('./models/Category');
 
 // Controllers
 var userController = require('./controllers/user');
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var kalamata = require('kalamata');
 var api = kalamata(app, {apiRoot:'/api/v1'});
 api.expose(Product)
+api.expose(Category)
 
 app.use(function(req, res, next) {
   req.isAuthenticated = function() {

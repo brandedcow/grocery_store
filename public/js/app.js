@@ -6,6 +6,14 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
       .when('/', {
         templateUrl: 'partials/home.html'
       })
+      .when('/products', {
+        templateUrl: 'partials/products.html',
+        controller: 'ProductsCtrl'
+      })
+      .when('/cart', {
+        templateUrl: 'partials/cart.html',
+        controller: 'CartCtrl'
+      })
       .when('/contact', {
         templateUrl: 'partials/contact.html',
         controller: 'ContactCtrl'

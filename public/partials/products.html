@@ -1,0 +1,43 @@
+<div ng-controller="ProductsCtrl" class="container-fluid" ng-init="getCategories()">
+  <div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-default sidebar-menu">
+          <div class="panel-heading">
+            <h3 class="panel-title">Categories</h3>
+          </div>
+          <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked category-menu">
+              <li ng-repeat="item in categories">
+                <a href="#">{{ item.name }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+      <div class="row products">
+        <div class="col-md-4 col-sm-6">
+            <div class="product">
+                <div class="image">
+                    <a href="shop-detail.html">
+                        <img src="img/product3.jpg" alt="" class="img-responsive image1">
+                    </a>
+                </div>
+                <!-- /.image -->
+                <div class="text">
+                    <h3><a href="shop-detail.html">Banana</a></h3>
+                    <p class="price">$143.00</p>
+                    <p class="buttons">
+                        <a href="shop-detail.html" class="btn btn-default">View detail</a>
+                        <a href="shop-basket.html" class="btn btn-template-main"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    </p>
+
+                </div>
+                <!-- /.text -->
+            </div>
+            <!-- /.product -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
