@@ -3,11 +3,11 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('products', function(table) {
       table.increments();
-      table.string('product_name');
-      table.float('product_price');
-      table.string('product_description');
-      table.float('product_weight');
-      table.integer('product_quantity');
+      table.string('name');
+      table.float('price');
+      table.string('description');
+      table.float('weight');
+      table.integer('quantity');
     })
   ]);
 };
