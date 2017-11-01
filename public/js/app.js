@@ -10,6 +10,10 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
         templateUrl: 'partials/products.html',
         controller: 'ProductsCtrl'
       })
+      .when('/product-detail', {
+        templateUrl: 'partials/product-detail.html',
+        controller: 'ProductsCtrl'
+      })
       .when('/cart', {
         templateUrl: 'partials/cart.html',
         controller: 'CartCtrl'
