@@ -18,6 +18,10 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
         templateUrl: 'partials/cart.html',
         controller: 'CartCtrl'
       })
+      .when('/checkout', {
+        templateUrl: 'partials/checkout-1.html',
+        controller: 'CheckoutCtrl'
+      })
       .when('/contact', {
         templateUrl: 'partials/contact.html',
         controller: 'ContactCtrl'
@@ -70,4 +74,4 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
     if ($window.localStorage.user) {
       $rootScope.currentUser = JSON.parse($window.localStorage.user);
     }
-  });
+  })

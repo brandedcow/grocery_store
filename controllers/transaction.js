@@ -54,7 +54,7 @@ exports.purchasePost = function(req, res, next) {
         quantity: req.body.quantity
       }).save()
         .then(function(user) {
-          res.send({ msg:'success'})
+          res.status(200).send({ msg:'success'})
         })
         .catch(function(err) {
           return res.status(400).send({ msg:'failure'})

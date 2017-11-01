@@ -10,6 +10,7 @@ var jwt = require('jsonwebtoken');
 var moment = require('moment');
 var request = require('request');
 var bookshelf = require('./config/bookshelf');
+var stripe = require('stripe')('pk_test_WrJAZt4JwOpv3NerS20gj6vl')
 
 // Load environment variables from .env file
 dotenv.load();
