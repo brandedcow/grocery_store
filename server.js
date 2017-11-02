@@ -73,7 +73,7 @@ app.post('/login', userController.loginPost);
 app.post('/forgot', userController.forgotPost);
 app.post('/reset/:token', userController.resetPost);
 app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);
-app.post('/purchase', userController.ensureAuthenticated, transactionController.purchasePost)
+app.post('/purchase', userController.ensureAuthenticated, transactionController.ensureOrderExists, transactionController.purchasePost)
 app.post('/checkout', userController.ensureAuthenticated, transactionController.checkoutPost)
 
 app.get('*', function(req, res) {

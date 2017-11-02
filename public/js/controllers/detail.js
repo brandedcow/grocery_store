@@ -9,7 +9,7 @@ angular.module('MyApp')
     };
 
     $scope.init = function () {
-      $scope.test = "start detail"
+      $scope.test = $rootScope.currentUser
       $scope.selectedProduct = Session.getProduct()
     }
 

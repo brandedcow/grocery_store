@@ -9,6 +9,22 @@ var qs = require('querystring');
 var Order = require('../models/Order')
 var Purchase = require('../models/Purchase')
 
+
+exports.ensureOrderExists = function(req, res, next) {
+  new Order({ customer_id: req.body.customer_id })
+    .fetch()
+    .then(function(order) {
+      if (order === null) {
+        new Order({customer_id:req.body.customer_id}).save()
+        next()
+      } else {
+        next()
+      }
+    })
+    .catch(function(err) {
+      res.status(400).send()
+    })
+}
   /**
    * POST /purchase
    * Add to purchases table
@@ -25,40 +41,43 @@ exports.purchasePost = function(req, res, next) {
       return res.status(400).send(errors);
     }
 
-    var orderID;
-
-    // create pending order if does not exist
+    // find current pending order & add purchase
     new Order({
       customer_id: req.body.customer_id,
-      order_status: 1,
-    })
-    .fetch()
-    .catch(function(err) {
-      if (err === null){
-        new Order({
-          customer_id: req.body.customer_id
-        }).save()
-      }
-    })
-
-    // find current pending order
-    new Order({
-      customer_id: req.body.customer_id,
-      order_status: 1,
+      order_status: 1
     })
     .fetch()
     .then(function(order) {
-      new Purchase({
-        order_id: order.get('id'),
-        product_id: req.body.product_id,
-        quantity: req.body.quantity
-      }).save()
-        .then(function(user) {
-          res.status(200).send({ msg:'success'})
-        })
-        .catch(function(err) {
-          return res.status(400).send({ msg:'failure'})
-        })
+      if (order === null) {
+        return res.status(400).send({ msg:'no order found'})
+      } else {
+        // find add same products same order
+        new Purchase({
+          order_id: order.get('id'),
+          product_id: req.body.product_id,
+        }).fetch()
+          .then(function(purchase) {
+            // did not find
+            if (purchase === null) {
+              new Purchase({
+                order_id: order.get('id'),
+                product_id: req.body.product_id,
+                quantity: req.body.quantity
+              }).save()
+                .then(function() {
+                  return res.status(200).send({ msg: 'insert success'})
+                })
+            // update found
+            } else {
+              new Purchase({id: purchase.get('id')})
+                .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
+                .then(function() {
+                  return res.status(200).send({ msg: 'update success'})
+                })
+
+            }
+          })
+      }
     })
 
   };
