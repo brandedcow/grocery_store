@@ -75,6 +75,7 @@ app.post('/reset/:token', userController.resetPost);
 app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);
 app.post('/purchase', userController.ensureAuthenticated, transactionController.ensureOrderExists, transactionController.purchasePost)
 app.post('/checkout', userController.ensureAuthenticated, transactionController.checkoutPost)
+app.get('/order/:id', userController.ensureAuthenticated, transactionController.orderGet)
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
