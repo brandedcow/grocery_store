@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-init="init()">
   <div class="row">
     <div class="col-md-12">
-      <p>You currently have n items(s) in cart.</p>
+      <p>You currently have {{ cartInfo.itemCount }} items(s) in cart.</p>
     </div>
 
     <div id="basket" class="col-md-9">
@@ -14,60 +14,44 @@
                         <th colspan="2">Product</th>
                         <th>Quantity</th>
                         <th>Unit price</th>
-                        <th>Discount</th>
+                        <th>Unit weight</th>
                         <th colspan="2">Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr ng-repeat="item in cartInfo.items">
                         <td>
                             <a href="#">
-                                <img src="img/detailsquare.jpg" alt="White Blouse Armani">
+                                <img src="img/detailsquare.jpg" alt="picture">
                             </a>
                         </td>
-                        <td><a href="#">White Blouse Armani</a>
+                        <td><a href="#">{{ item.name }}</a>
                         </td>
                         <td>
-                            <input type="number" value="2" class="form-control">
+                            <input type="number" ng-model="item.quantity">
                         </td>
-                        <td>$123.00</td>
-                        <td>$0.00</td>
-                        <td>$246.00</td>
-                        <td><a href="#"><i class="fa fa-trash-o"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#">
-                                <img src="img/basketsquare.jpg" alt="Black Blouse Armani">
-                            </a>
-                        </td>
-                        <td><a href="#">Black Blouse Armani</a>
-                        </td>
-                        <td>
-                            <input type="number" value="1" class="form-control">
-                        </td>
-                        <td>$200.00</td>
-                        <td>$0.00</td>
-                        <td>$200.00</td>
+                        <td>${{ item.price }}</td>
+                        <td>{{ item.weight }}</td>
+                        <td>${{ item.price * item.quantity }}</td>
                         <td><a href="#"><i class="fa fa-trash-o"></i></a>
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5">Total</th>
-                        <th colspan="2">$446.00</th>
+                        <th colspan="4">Total</th>
+                        <th>{{ cartInfo.totalWeight }}</th>
+                        <th colspan="2">${{ cartInfo.total }}</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
         <div class="box-footer">
             <div class="pull-left">
-                <a href="products" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
+                <a ng-href="products" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
             </div>
             <div class="pull-right">
-                <button class="btn btn-default"><i class="fa fa-refresh"></i> Update cart</button>
+                <button ng-click="updateCart()" class="btn btn-default">Update cart</button>
                 <button type="submit" class="btn btn-template-main">Proceed to checkout <i class="fa fa-chevron-right"></i>
                 </button>
             </div>
@@ -89,19 +73,19 @@
                 <tbody>
                     <tr>
                         <td>Order subtotal</td>
-                        <th>$446.00</th>
+                        <th>${{ cartInfo.total }}</th>
                     </tr>
                     <tr>
                         <td>Shipping and handling</td>
-                        <th>$10.00</th>
+                        <th>$0</th>
                     </tr>
                     <tr>
                         <td>Tax</td>
-                        <th>$0.00</th>
+                        <th>$0</th>
                     </tr>
                     <tr class="total">
                         <td>Total</td>
-                        <th>$456.00</th>
+                        <th>${{ cartInfo.total }}</th>
                     </tr>
                 </tbody>
             </table>

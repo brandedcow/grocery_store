@@ -1,4 +1,7 @@
 <div class="container-fluid" ng-init="init()">
+  <div ng-if="messages.error" role="alert" class="alert alert-danger text-center">
+    {{ messages }}
+  </div>
   <div class="row">
     <div class="col-sm-3">
         <div class="panel panel-default sidebar-menu">
@@ -29,7 +32,7 @@
                     <p class="price">${{ item.price }}</p>
                     <p class="buttons">
                         <a ng-click="getProduct(item.id)" class="btn btn-default">View detail</a>
-                        <a ng-click="" class="btn btn-default">Add to cart</a>
+                        <a ng-click="addToCart(item.id)" class="btn btn-default">Add to cart</a>
                     </p>
 
                 </div>

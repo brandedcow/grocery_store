@@ -51,22 +51,27 @@ angular.module('MyApp')
       })
       .catch(function(response) {
         $scope.messages = {
+          msg: Array.isArray(response.data) ? response.data : [response.data]
+        };
+      })
+    }
+
+    $scope.addToCart = function (itemID) {
+      var data = {
+        customer_id: $rootScope.currentUser.id,
+        product_id: itemID,
+        quantity: 1
+      }
+
+      Products.addToCart(data)
+      .then(function(response) {
+        $scope.messages = response.data
+      })
+      .catch(function(response) {
+        $scope.messages = {
           error: Array.isArray(response.data) ? response.data : [response.data]
         };
       })
 
     }
-
-    // $scope.addToCart = function () {
-    //   Products.addToCart()
-    //   .then(function(response) {
-    //     $scope.products = response.data
-    //   })
-    //   .catch(function(response) {
-    //     $scope.messages = {
-    //       error: Array.isArray(response.data) ? response.data : [response.data]
-    //     };
-    //   })
-    //
-    // }
   });

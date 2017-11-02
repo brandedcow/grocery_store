@@ -5,10 +5,29 @@ var jwt = require('jsonwebtoken');
 var moment = require('moment');
 var request = require('request');
 var qs = require('querystring');
+var _ = require('underscore');
 
 var Order = require('../models/Order')
-var Purchase = require('../models/Purchase')
+var Product = require('../models/Product')
+var Purchase = require('../models/Purchase').model
+var Purchases = require('../models/Purchase').collection
 
+
+exports.ensureOrderExists = function(req, res, next) {
+  new Order({ customer_id: req.body.customer_id })
+    .fetch()
+    .then(function(order) {
+      if (order === null) {
+        new Order({customer_id:req.body.customer_id}).save()
+        next()
+      } else {
+        next()
+      }
+    })
+    .catch(function(err) {
+      res.status(400).send()
+    })
+}
   /**
    * POST /purchase
    * Add to purchases table
@@ -25,40 +44,43 @@ exports.purchasePost = function(req, res, next) {
       return res.status(400).send(errors);
     }
 
-    var orderID;
-
-    // create pending order if does not exist
+    // find current pending order & add purchase
     new Order({
       customer_id: req.body.customer_id,
-      order_status: 1,
-    })
-    .fetch()
-    .catch(function(err) {
-      if (err === null){
-        new Order({
-          customer_id: req.body.customer_id
-        }).save()
-      }
-    })
-
-    // find current pending order
-    new Order({
-      customer_id: req.body.customer_id,
-      order_status: 1,
+      order_status: 1
     })
     .fetch()
     .then(function(order) {
-      new Purchase({
-        order_id: order.get('id'),
-        product_id: req.body.product_id,
-        quantity: req.body.quantity
-      }).save()
-        .then(function(user) {
-          res.status(200).send({ msg:'success'})
-        })
-        .catch(function(err) {
-          return res.status(400).send({ msg:'failure'})
-        })
+      if (order === null) {
+        return res.status(400).send({ msg:'no order found'})
+      } else {
+        // find add same products same order
+        new Purchase({
+          order_id: order.get('id'),
+          product_id: req.body.product_id,
+        }).fetch()
+          .then(function(purchase) {
+            // did not find
+            if (purchase === null) {
+              new Purchase({
+                order_id: order.get('id'),
+                product_id: req.body.product_id,
+                quantity: req.body.quantity
+              }).save()
+                .then(function() {
+                  return res.status(200).send({ msg: 'insert success'})
+                })
+            // update found
+            } else {
+              new Purchase({id: purchase.get('id')})
+                .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
+                .then(function() {
+                  return res.status(200).send({ msg: 'update success'})
+                })
+
+            }
+          })
+      }
     })
 
   };
@@ -97,55 +119,66 @@ exports.checkoutPost = function(req, res, next) {
 
 
 /**
- * PUT /account
- * Update profile information OR change password.
+ * GET /order/:id
+ * get order info based on customer_id
  */
-exports.accountPut = function(req, res, next) {
-  if ('password' in req.body) {
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirm', 'Passwords must match').equals(req.body.password);
-  } else {
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('email', 'Email cannot be blank').notEmpty();
-    req.sanitize('email').normalizeEmail({ remove_dots: false });
-  }
+exports.orderGet = function(req, res, next) {
 
-  var errors = req.validationErrors();
-
-  if (errors) {
-    return res.status(400).send(errors);
-  }
-
-  var user = new User({ id: req.user.id });
-  if ('password' in req.body) {
-    user.save({ password: req.body.password }, { patch: true });
-  } else {
-    user.save({
-      email: req.body.email,
-      name: req.body.name,
-    }, { patch: true });
-  }
-  user.fetch().then(function(user) {
-    if ('password' in req.body) {
-      res.send({ msg: 'Your password has been changed.' });
-    } else {
-      res.send({ user: user, msg: 'Your profile information has been updated.' });
-    }
-    res.redirect('/account');
-  }).catch(function(err) {
-    if (err.code === 'ER_DUP_ENTRY') {
-      res.status(409).send({ msg: 'The email address you have entered is already associated with another account.' });
-    }
-  });
+  new Order({
+    customer_id: req.params.id,
+    order_status: 1
+  }).fetch()
+    .then(function(order) {
+      // not found
+      if (order ===null){
+        return res.status(400).send({ msg:'no pending order'})
+      } else {
+        new Purchase({ id: order.get('id') })
+          .fetchAll()
+          .then(function(resData) {
+            if (resData === null) {
+              return res.status(400).send({ msg:'no items in order'})
+            } else {
+              var info = {
+                orderNum: order.get('id'),
+                itemCount: 0,
+                items: [],
+                totalWeight: 0,
+                total: 0
+              }
+              resData.forEach(function(model) {
+                info.itemCount += model.get('quantity')
+                info.items.push({
+                  id: model.get('product_id'),
+                  quantity: model.get('quantity')
+                })
+              })
+              res.status(200).send(info)
+            }
+          })
+      }
+    })
 };
 
 /**
- * DELETE /account
+ * PUT /order
  */
-exports.accountDelete = function(req, res, next) {
-  new User({ id: req.user.id }).destroy().then(function(user) {
-    res.send({ msg: 'Your account has been permanently deleted.' });
-  });
+exports.orderPut = function(req, res, next) {
+  req.body.items.forEach(function(item){
+
+    var temp = new Purchase({
+      order_id: req.body.orderNum,
+      product_id: item.id
+    }).fetch()
+      .then(function(purchase) {
+        purchase.save({
+            quantity: item.quantity
+          },{patch:true})
+      })
+
+  })
+  return res.status(200).send({ msg: 'success' })
+
 };
 
 /**
