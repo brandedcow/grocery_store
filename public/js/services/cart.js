@@ -3,6 +3,9 @@ angular.module('MyApp')
     return {
       getCartInfo: function(id) {
         return $http.get(`/order/${id}`)
+      },
+      updateCart: function(data) {
+        return $http.put('/order/', data)
       }
     }
   })

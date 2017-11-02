@@ -38,7 +38,15 @@ angular.module('MyApp')
     }
 
     $scope.updateCart = function() {
-      Cart.updateCart()
+      Cart.updateCart($scope.cartInfo)
+      .then(function(response) {
+        $scope.messages = response.data
+      })
+      .catch(function(response) {
+        $scope.messages = {
+          error: Array.isArray(response.data) ? response.data : [response.data]
+        };
+      })
     }
 
   });

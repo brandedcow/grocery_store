@@ -140,6 +140,7 @@ exports.orderGet = function(req, res, next) {
               return res.status(400).send({ msg:'no items in order'})
             } else {
               var info = {
+                orderNum: order.get('id'),
                 itemCount: 0,
                 items: [],
                 totalWeight: 0,
@@ -160,12 +161,24 @@ exports.orderGet = function(req, res, next) {
 };
 
 /**
- * DELETE /account
+ * PUT /order
  */
-exports.accountDelete = function(req, res, next) {
-  new User({ id: req.user.id }).destroy().then(function(user) {
-    res.send({ msg: 'Your account has been permanently deleted.' });
-  });
+exports.orderPut = function(req, res, next) {
+  req.body.items.forEach(function(item){
+
+    var temp = new Purchase({
+      order_id: req.body.orderNum,
+      product_id: item.id
+    }).fetch()
+      .then(function(purchase) {
+        purchase.save({
+            quantity: item.quantity
+          },{patch:true})
+      })
+
+  })
+  return res.status(200).send({ msg: 'success' })
+
 };
 
 /**
