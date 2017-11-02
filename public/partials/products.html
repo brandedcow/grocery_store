@@ -25,11 +25,11 @@
                 </div> -->
                 <!-- /.image -->
                 <div class="text">
-                    <h3><a href="product-detail">{{ item.name }}</a></h3>
+                    <h3><a ng-click="getProduct(item.id)">{{ item.name }}</a></h3>
                     <p class="price">${{ item.price }}</p>
                     <p class="buttons">
-                        <a ng-href="product-detail" ng-click="getProduct( item.id )" class="btn btn-default">View detail</a>
-                        <a class="btn btn-default" ng-click="">Add to cart</a>
+                        <a ng-click="getProduct(item.id)" class="btn btn-default">View detail</a>
+                        <a ng-click="" class="btn btn-default">Add to cart</a>
                     </p>
 
                 </div>

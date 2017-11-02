@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ProductsCtrl', function($scope, $rootScope, $location, $window, $auth, Products, productSession) {
+  .controller('ProductsCtrl', function($scope, $rootScope, $location, $window, $auth, Products, Session) {
     $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();
     };
@@ -9,9 +9,9 @@ angular.module('MyApp')
     };
 
     $scope.init = function () {
+      $scope.test = "start"
       $scope.getCategories()
       $scope.getProducts()
-      $scope.selectedProduct = productSession.getProduct()
     }
 
     $scope.getCategories = function() {
@@ -38,18 +38,23 @@ angular.module('MyApp')
       })
     }
 
-    $scope.selectedProduct = "reset"
-
     $scope.getProduct = function(itemID) {
+      $scope.test = "getProduct" + itemID
+
       Products.getProduct(itemID)
       .then(function(response) {
-        productSession.setProduct(response.data)
+        Session.reset()
+        Session.setProduct(response.data)
+      })
+      .then(function() {
+        $location.path("product-detail")
       })
       .catch(function(response) {
         $scope.messages = {
           error: Array.isArray(response.data) ? response.data : [response.data]
         };
       })
+
     }
 
     // $scope.addToCart = function () {

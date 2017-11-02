@@ -12,7 +12,7 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
       })
       .when('/product-detail', {
         templateUrl: 'partials/product-detail.html',
-        controller: 'ProductsCtrl'
+        controller: 'DetailCtrl'
       })
       .when('/cart', {
         templateUrl: 'partials/cart.html',
