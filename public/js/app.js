@@ -19,8 +19,20 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
         templateUrl: 'partials/cart.html',
         controller: 'CartCtrl'
       })
-      .when('/checkout', {
+      .when('/checkout-address', {
         templateUrl: 'partials/checkout-1.html',
+        controller: 'CheckoutCtrl'
+      })
+      .when('/checkout-delivery', {
+        templateUrl: 'partials/checkout-2.html',
+        controller: 'CheckoutCtrl'
+      })
+      .when('/checkout-payment', {
+        templateUrl: 'partials/checkout-3.html',
+        controller: 'CheckoutCtrl'
+      })
+      .when('/checkout-review', {
+        templateUrl: 'partials/checkout-4.html',
         controller: 'CheckoutCtrl'
       })
       .when('/contact', {
