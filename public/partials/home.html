@@ -1,6 +1,28 @@
 <div class="container-fluid">
+  {{ response }}
   <div class="text-center row">
-    <input class="" type="text" ></input>
-    <a class="btn btn-default">Search</a>
+    <input ng-model="item" type="text" ></input>
+    <a ng-click="searchProduct()" class="btn btn-default">Search</a>
   </div>
+  <div class="row">
+    <div class="product col-sm-6 col-md-4" ng-repeat="item in results">
+        <!-- <div class="image">
+            <a href="shop-detail.html">
+                <img src="img/product3.jpg" alt="" class="img-responsive image1">
+            </a>
+        </div> -->
+        <!-- /.image -->
+        <div class="text">
+            <h3><a ng-click="getProduct(item.id)">{{ item.name }}</a></h3>
+            <p class="price">${{ item.price }}</p>
+            <p class="buttons">
+                <a ng-click="getProduct(item.id)" class="btn btn-default">View detail</a>
+                <a ng-click="addToCart(item.id)" class="btn btn-default">Add to cart</a>
+            </p>
+
+        </div>
+        <!-- /.text -->
+    </div>
+  </div>
+
 </div>

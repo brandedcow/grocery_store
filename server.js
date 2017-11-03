@@ -24,6 +24,7 @@ var Category = require('./models/Category');
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var transactionController = require('./controllers/transaction')
+var productController = require('./controllers/product')
 
 var app = express();
 
@@ -77,6 +78,7 @@ app.post('/purchase', userController.ensureAuthenticated, transactionController.
 app.post('/checkout', userController.ensureAuthenticated, transactionController.checkoutPost)
 app.get('/order/:id', userController.ensureAuthenticated, transactionController.orderGet)
 app.put('/order', userController.ensureAuthenticated, transactionController.orderPut)
+app.get('/search/', productController.productGet)
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);

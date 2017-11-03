@@ -13,6 +13,9 @@ angular.module('MyApp')
       },
       addToCart: function(data) {
         return $http.post('/purchase', data)
+      },
+      searchProduct: function(query) {
+        return $http.get(`/search/?${query}`)
       }
     };
   })
