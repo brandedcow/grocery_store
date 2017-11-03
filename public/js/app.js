@@ -52,6 +52,10 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
         controller: 'ResetCtrl',
         resolve: { skipIfAuthenticated: skipIfAuthenticated }
       })
+      .when('/track-order', {
+        templateUrl: 'partials/track-order.html',
+        controller: 'TrackOrderCtrl'
+      })
       .otherwise({
         templateUrl: 'partials/404.html'
       });
