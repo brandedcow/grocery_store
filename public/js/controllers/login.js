@@ -4,9 +4,8 @@ angular.module('MyApp')
       $auth.login($scope.user)
         .then(function(response) {
           $rootScope.currentUser = response.data.user;
-          $rooScope.token = response.data.token
           $window.localStorage.user = JSON.stringify(response.data.user);
-          $location.path('/home');
+          $location.path('/');
         })
         .catch(function(response) {
           $scope.messages = {

@@ -10,7 +10,6 @@ var jwt = require('jsonwebtoken');
 var moment = require('moment');
 var request = require('request');
 var bookshelf = require('./config/bookshelf');
-// var stripe = require('stripe')('pk_test_WrJAZt4JwOpv3NerS20gj6vl')
 
 // Load environment variables from .env file
 dotenv.load();
@@ -76,8 +75,11 @@ app.post('/reset/:token', userController.resetPost);
 app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);
 app.post('/purchase', userController.ensureAuthenticated, transactionController.ensureOrderExists, transactionController.purchasePost)
 app.post('/checkout', userController.ensureAuthenticated, transactionController.checkoutPost)
-app.get('/order/:id', userController.ensureAuthenticated, transactionController.orderGet)
+app.get('/current-order/:id', userController.ensureAuthenticated, transactionController.currentOrderGet)
+app.get('/order/:id',transactionController.orderGet)
 app.put('/order', userController.ensureAuthenticated, transactionController.orderPut)
+app.post('/order', userController.ensureAuthenticated, transactionController.orderPost)
+
 app.get('/search/', productController.productGet)
 
 app.get('*', function(req, res) {

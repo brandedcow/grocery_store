@@ -31,6 +31,7 @@
     "mysql": "^2.10.2",
     "nodemailer": "^2.3.0",
     "request": "^2.69.0",
+    "stripe": "^5.3.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

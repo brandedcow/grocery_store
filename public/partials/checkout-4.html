@@ -1,10 +1,10 @@
 <div class="container-fluid" ng-init="init()">
+  {{ test}}
   <div class="row">
 
       <div class="col-md-9 clearfix" id="checkout">
 
           <div class="box">
-              <form method="post" action="shop-checkout4.html">
                   <ul class="nav nav-pills nav-justified">
                     <li><a href="checkout-address">Address</a>
                     </li>
@@ -66,10 +66,9 @@
                           <a href="checkout-payment" class="btn btn-default">Back to Payment method</a>
                       </div>
                       <div class="pull-right">
-                          <a class="btn btn-default">Place an order</a>
+                          <a ng-click="placeOrder()" class="btn btn-default">Confirm order</a>
                       </div>
                   </div>
-              </form>
           </div>
           <!-- /.box -->
 

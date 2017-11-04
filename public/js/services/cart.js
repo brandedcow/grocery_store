@@ -2,10 +2,13 @@ angular.module('MyApp')
   .factory('Cart', function($http) {
     return {
       getCartInfo: function(id) {
-        return $http.get(`/order/${id}`)
+        return $http.get(`/current-order/${id}`)
       },
       updateCart: function(data) {
         return $http.put('/order/', data)
+      },
+      getOrders: function(data) {
+        return $http.get(`/order/${data}`)
       },
       placeOrder: function(data) {
         return $http.post('/order/', data)

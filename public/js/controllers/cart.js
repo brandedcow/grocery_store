@@ -2,7 +2,6 @@ angular.module('MyApp')
   .controller('CartCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Cart, Products, Checkout) {
     $scope.init = function() {
       $scope.getCartInfo()
-      $scope.token = $rootScope.token
     }
 
     $scope.getCartInfo = function() {

@@ -13,7 +13,6 @@
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('/')}"><a href="/">Home</a></li>
         <li ng-class="{ active: isActive('/products')}"><a href="/products">Products</a></li>
-        <!-- <li ng-class="{ active: isActive('/contact')}"><a href="/contact">Contact</a></li> -->
       </ul>
       <ul ng-if="isAuthenticated()" class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -22,12 +21,12 @@
           </a>
           <ul class="dropdown-menu">
             <li><a href="/account">My Account</a></li>
-            <li class="divider"></li>
+            <li role="separator" class="divider"></li>
             <li><a href="/cart">My Cart</a></li>
-            <li class="divider"></li>
+            <li><a href="/my-orders">My Orders</a></li>
             <li><a href="/track-order">Track Order</a></li>
-            <li class="divider"></li>
-            <li><a href="#" ng-click="logout()"}>Logout</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a ng-click="logout()"}>Logout</a></li>
           </ul>
         </li>
       </ul>

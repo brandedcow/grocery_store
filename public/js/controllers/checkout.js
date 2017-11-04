@@ -28,26 +28,35 @@ angular.module('MyApp')
     }
 
     $scope.toReview = function() {
-      localStorageService.set('payment',$scope.delivery)
       $location.path('checkout-payment')
     }
 
     $scope.stripeCallback = function (code, result) {
-    if (result.error) {
-        window.alert('Error' );
-    } else {
-        window.alert('success! token: ' + result.id);
-        Cart.placeOrder(result.id)
-          .then(function(response) {
-
-          })
-          .catch(function(response) {
-            $scope.messages = {
-              error: Array.isArray(response.data) ? response.data : [response.data]
-            };
-          })
+      if (result.error) {
+          window.alert('Error' );
+      } else {
+          window.alert('Valid Payment');
+          var data = {
+            customer_id:$rootScope.currentUser.id,
+            token: result.id,
+            address: localStorageService.get('address'),
+            amount: localStorageService.get('cartInfo').total
+          }
+          localStorageService.set('chargeData', data)
+          $location.path('checkout-review')
+      }
+    };
+    $scope.placeOrder = function() {
+      var data = localStorageService.get('chargeData')
+      Cart.placeOrder(data)
+        .then(function(response) {
+          $location.path('my-orders')
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
     }
-};
-
 
   });
