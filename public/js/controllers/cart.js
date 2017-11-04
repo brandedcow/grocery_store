@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('CartCtrl', function($scope, $rootScope, $location, $window, $auth, Cart, Products) {
+  .controller('CartCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Cart, Products, Checkout) {
     $scope.init = function() {
       $scope.getCartInfo()
     }
@@ -27,6 +27,11 @@ angular.module('MyApp')
           error: Array.isArray(response.data) ? response.data : [response.data]
         };
       })
+    }
+
+    $scope.toCheckout = function() {
+      localStorageService.set('cartInfo',$scope.cartInfo)
+      $location.path("checkout-address")
     }
 
   });

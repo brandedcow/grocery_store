@@ -1,32 +1,36 @@
 angular.module('MyApp')
-  .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, Cart, Products) {
+  .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Cart, Checkout) {
     $scope.init = function() {
-      $scope.getCartInfo()
-    }
-    $scope.test='start'
-
-    $scope.tabs = [{
-      title:'Address',
-      url: 'partials/checkout-1'
-    },{
-      title:'Delivery',
-      url: 'partials/checkout-2'
-    },{
-      title:'Payment',
-      url: 'partials/checkout-3'
-    },{
-      title:'Review',
-      url: 'partials/checkout-4'
-    }]
-
-    $scope.currentTab = '/partials/checkout-1'
-
-    $scope.onClickTab = function(tab) {
-      $scope.currentTab = tab.url
+      $scope.getInfo()
+      $scope.checkout = {
+        cartInfo: $scope.cartInfo,
+        address: $scope.address,
+        delivery: $scope.delivery,
+        payment: $scope.payment
+      }
     }
 
-    $scope.isActiveTab = function(tabUrl) {
-      return tabUrl == $scope.currentTab
+    $scope.getInfo = function() {
+      $scope.cartInfo = localStorageService.get('cartInfo')
+      $scope.address = localStorageService.get('address')
+      $scope.delivery = localStorageService.get('delivery')
+      $scope.payment = localStorageService.get('payment')
     }
+
+    $scope.toDelivery = function() {
+      localStorageService.set('address',$scope.address)
+      $location.path('checkout-delivery')
+    }
+
+    $scope.toPayment = function() {
+      localStorageService.set('delivery',$scope.delivery)
+      $location.path('checkout-payment')
+    }
+
+    $scope.toReview = function() {
+      localStorageService.set('payment',$scope.delivery)
+      $location.path('checkout-payment')
+    }
+
 
   });

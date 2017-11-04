@@ -1,5 +1,5 @@
-angular.module('MyApp', ['ngRoute', 'satellizer'])
-  .config(function($routeProvider, $locationProvider, $authProvider) {
+angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule'])
+  .config(function($routeProvider, $locationProvider, $authProvider, localStorageServiceProvider) {
     $locationProvider.html5Mode(true);
 
     $routeProvider
@@ -86,6 +86,10 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
         $location.path('/login');
       }
     }
+
+    localStorageServiceProvider
+      .setPrefix('MyApp')
+      .setNotify(true, true)
   })
   .run(function($rootScope, $window) {
     if ($window.localStorage.user) {

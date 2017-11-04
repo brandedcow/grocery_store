@@ -1,96 +1,93 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-init="init()">
+  {{checkout}}
+    <div class="row">
 
-                <div class="row">
+        <div class="col-md-9 clearfix" id="checkout">
 
-                    <div class="col-md-9 clearfix" id="checkout">
+            <div class="box">
+                <form method="post" action="shop-checkout3.html">
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="checkout-address">Address</a>
+                        </li>
+                        <li class="active"><a href="checkout-delivery">Delivery Method</a>
+                        </li>
+                        <li class="disabled"><a href="#">Payment Method</a>
+                        </li>
+                        <li class="disabled"><a href="#">Order Review</a>
+                        </li>
+                    </ul>
 
-                        <div class="box">
-                            <form method="post" action="shop-checkout3.html">
-                                <ul class="nav nav-pills nav-justified">
-                                    <li><a href="checkout-address">Address</a>
-                                    </li>
-                                    <li class="active"><a href="checkout-delivery">Delivery Method</a>
-                                    </li>
-                                    <li class="disabled"><a href="#">Payment Method</a>
-                                    </li>
-                                    <li class="disabled"><a href="#">Order Review</a>
-                                    </li>
-                                </ul>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="box">
 
-                                <div class="content">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="box">
+                                    <h4>Drone Delivery</h4>
 
-                                                <h4>Drone Delivery</h4>
+                                    <p>Get it today - only option possible.</p>
 
-                                                <p>Get it today - only option possible.</p>
-
-                                                <div class="box-footer text-center">
-                                                    <input type="radio" name="delivery" value="delivery1">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <!-- /.row -->
-
-                                </div>
-                                <!-- /.content -->
-
-                                <div class="box-footer">
-                                    <div class="pull-left">
-                                        <a href="checkout-address" class="btn btn-default">Back to Addresses</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="checkout-payment" class="btn btn-default">Continue to Payment Method</a>
+                                    <div class="box-footer text-center">
+                                        <input type="radio" name="delivery" value="drone" ng-model="delivery">
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <!-- /.box -->
-
-
-                    </div>
-                    <!-- /.col-md-9 -->
-
-                    <div class="col-md-3">
-
-                        <div class="box" id="order-summary">
-                            <div class="box-header">
-                                <h3>Order summary</h3>
-                            </div>
-                            <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
-
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td>Order subtotal</td>
-                                            <th>$446.00</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Shipping and handling</td>
-                                            <th>$10.00</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Tax</td>
-                                            <th>$0.00</th>
-                                        </tr>
-                                        <tr class="total">
-                                            <td>Total</td>
-                                            <th>$456.00</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
 
                         </div>
+                        <!-- /.row -->
 
                     </div>
-                    <!-- /.col-md-3 -->
+                    <!-- /.content -->
 
-                </div>
-                <!-- /.row -->
-
+                    <div class="box-footer">
+                        <div class="pull-left">
+                            <a href="checkout-address" class="btn btn-default">Back to Addresses</a>
+                        </div>
+                        <div class="pull-right">
+                            <a ng-click="toPayment()" class="btn btn-default">Continue to Payment Method</a>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <!-- /.box -->
+
+
+        </div>
+        <!-- /.col-md-9 -->
+
+        <div class="col-md-3">
+          <div id="order-summary" class="box">
+            <div class="box-header">
+                <h3>Order summary</h3>
+            </div>
+            <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Order subtotal</td>
+                            <th>${{ cartInfo.total }}</th>
+                        </tr>
+                        <tr>
+                            <td>Shipping and handling</td>
+                            <th>$0</th>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <th>$0</th>
+                        </tr>
+                        <tr class="total">
+                            <td>Total</td>
+                            <th>${{ cartInfo.total }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-3 -->
+
+    </div>
+    <!-- /.row -->
+
+</div>
