@@ -32,5 +32,22 @@ angular.module('MyApp')
       $location.path('checkout-payment')
     }
 
+    $scope.stripeCallback = function (code, result) {
+    if (result.error) {
+        window.alert('Error' );
+    } else {
+        window.alert('success! token: ' + result.id);
+        Cart.placeOrder(result.id)
+          .then(function(response) {
+
+          })
+          .catch(function(response) {
+            $scope.messages = {
+              error: Array.isArray(response.data) ? response.data : [response.data]
+            };
+          })
+    }
+};
+
 
   });

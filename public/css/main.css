@@ -322,3 +322,7 @@ textarea {
    line-height: 30px;
    padding-left: 10px;
  }
+
+ .ng-invalid {
+   color: red;
+ }

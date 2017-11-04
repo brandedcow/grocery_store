@@ -1,5 +1,7 @@
-angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule'])
+angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule', 'angularPayments'])
   .config(function($routeProvider, $locationProvider, $authProvider, localStorageServiceProvider) {
+    //$window.Stripe.setPublishableKey('pk_test_WrJAZt4JwOpv3NerS20gj6vl')
+
     $locationProvider.html5Mode(true);
 
     $routeProvider
@@ -92,6 +94,7 @@ angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule'])
       .setNotify(true, true)
   })
   .run(function($rootScope, $window) {
+    $window.Stripe.setPublishableKey('pk_test_WrJAZt4JwOpv3NerS20gj6vl')
     if ($window.localStorage.user) {
       $rootScope.currentUser = JSON.parse($window.localStorage.user);
     }

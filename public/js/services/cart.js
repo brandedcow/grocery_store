@@ -6,6 +6,9 @@ angular.module('MyApp')
       },
       updateCart: function(data) {
         return $http.put('/order/', data)
+      },
+      placeOrder: function(data) {
+        return $http.post('/order/', data)
       }
     }
   })
@@ -14,7 +17,7 @@ angular.module('MyApp')
       address: null,
       cartInfo: null,
       delivery: 'drone',
-      payment: 'stripe'
+      payment: null
     }
 
     service.getAddress = function () {

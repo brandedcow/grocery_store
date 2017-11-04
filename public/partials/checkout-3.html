@@ -2,9 +2,9 @@
     <div class="row">
 
       <div class="col-md-9 clearfix" id="checkout">
+        <form stripe-form="stripeCallback">
 
           <div class="box">
-              <form method="post" action="shop-checkout4.html">
                   <ul class="nav nav-pills nav-justified">
                     <li><a href="checkout-address">Address</a>
                     </li>
@@ -20,15 +20,9 @@
                       <div class="row">
                           <div class="col-sm-6">
                               <div class="box payment-method">
-
-                                  <h4>Stripe</h4>
-
-                                  <p>Credit - only option.</p>
-
-                                  <div class="box-footer text-center">
-
-                                      <input type="radio" name="payment" value="payment1">
-                                  </div>
+                                  <input class="form-control" ng-model="number" placeholder="Card Number" payments-format="card" payments-validate="card" />
+                                  <input class="form-control" ng-model="expiry" placeholder="Expiration" payments-format="expiry" payments-validate="expiry" />
+                                  <input class="form-control" ng-model="cvc" placeholder="CVC" payments-format='cvc' payments-validate="cvc"/>
                               </div>
                           </div>
 
@@ -43,13 +37,13 @@
                           <a href="checkout-delivery" class="btn btn-default">Back to Shipping method</a>
                       </div>
                       <div class="pull-right">
-                          <a href="checkout-review" class="btn btn-default">Continue to Order review</a>
+                          <button type="submit" class="btn btn-default">Continue to Order review</button>
                       </div>
                   </div>
-              </form>
           </div>
           <!-- /.box -->
 
+        </form>
 
       </div>
       <!-- /.col-md-9 -->
