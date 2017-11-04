@@ -8,27 +8,6 @@ angular.module('MyApp')
       Cart.getCartInfo($rootScope.currentUser.id)
        .then(function(response) {
          $scope.cartInfo = response.data
-         $scope.cartInfo.items = Array.from($scope.cartInfo.items)
-         $scope.cartInfo.items.forEach(function(item) {
-           var temp = {
-             id: item.id,
-             name: null,
-             quantity: item.quantity,
-             price: 0,
-             weight: 0,
-           }
-           Products.getProduct(item.id)
-            .then(function(response) {
-              temp.name = response.data.name
-              temp.price = response.data.price
-              temp.weight = response.data.weight
-              $scope.cartInfo.total += (temp.price * temp.quantity)
-              $scope.cartInfo.totalWeight += Math.round(temp.weight * temp.quantity)
-              $scope.cartInfo.items.shift()
-              $scope.cartInfo.items.push(temp)
-            })
-
-         })
        })
        .catch(function(response) {
          $scope.messages = {
@@ -41,6 +20,7 @@ angular.module('MyApp')
       Cart.updateCart($scope.cartInfo)
       .then(function(response) {
         $scope.messages = response.data
+        $scope.getCartInfo()
       })
       .catch(function(response) {
         $scope.messages = {

@@ -6,6 +6,8 @@ var moment = require('moment');
 var request = require('request');
 var qs = require('querystring');
 var _ = require('underscore');
+var bookshelf = require('../config/bookshelf');
+
 
 var Order = require('../models/Order')
 var Product = require('../models/Product')
@@ -123,41 +125,37 @@ exports.checkoutPost = function(req, res, next) {
  * get order info based on customer_id
  */
 exports.orderGet = function(req, res, next) {
-
-  new Order({
-    customer_id: req.params.id,
-    order_status: 1
-  }).fetch()
-    .then(function(order) {
-      // not found
-      if (order ===null){
-        return res.status(400).send({ msg:'no pending order'})
-      } else {
-        new Purchase({ id: order.get('id') })
-          .fetchAll()
-          .then(function(resData) {
-            if (resData === null) {
-              return res.status(400).send({ msg:'no items in order'})
-            } else {
-              var info = {
-                orderNum: order.get('id'),
-                itemCount: 0,
-                items: [],
-                totalWeight: 0,
-                total: 0
-              }
-              resData.forEach(function(model) {
-                info.itemCount += model.get('quantity')
-                info.items.push({
-                  id: model.get('product_id'),
-                  quantity: model.get('quantity')
-                })
-              })
-              res.status(200).send(info)
-            }
-          })
-      }
+  var subquery =
+  bookshelf.knex
+    .select('order_id')
+    .from('orders')
+    .where({
+      customer_id:req.params.id,
+      order_status: 1
     })
+
+  bookshelf.knex
+    .select('products.id', 'products.name', 'purchases.quantity', 'products.price', 'products.weight', 'purchases.order_id')
+    .from('products')
+    .innerJoin('purchases', 'products.id', 'purchases.product_id')
+    .where('purchases.order_id', subquery)
+    .then(function(response) {
+      var info = {
+        orderNum: null,
+        itemCount: 0,
+        items: response,
+        totalWeight: 0,
+        total: 0
+      }
+      info.items.forEach(function(item) {
+        info.orderNum = item.order_id
+        info.itemCount += item.quantity
+        info.totalWeight += (item.weight * item.quantity)
+        info.total += (item.price * item.quantity)
+      })
+      res.status(200).send(info)
+    })
+
 };
 
 /**
@@ -175,7 +173,6 @@ exports.orderPut = function(req, res, next) {
             quantity: item.quantity
           },{patch:true})
       })
-
   })
   return res.status(200).send({ msg: 'success' })
 

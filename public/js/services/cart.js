@@ -9,3 +9,28 @@ angular.module('MyApp')
       }
     }
   })
+  .service('Checkout', function() {
+    var service = {
+      address: null,
+      delivery: 'drone',
+      payment: 'stripe'
+    }
+
+    service.getAddress = function () {
+      return this.address
+    }
+    service.getDelivery = function() {
+      return this.delivery
+    }
+    service.getPayment = function() {
+      return this.payment
+    }
+
+    service.setAddress = function(data) {
+      this.address = data
+    }
+    service.setDelivery = function(data) {
+      this.delivery = data
+    }
+    return service
+  })
