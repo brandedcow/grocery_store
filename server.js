@@ -11,6 +11,7 @@ var moment = require('moment');
 var request = require('request');
 var bookshelf = require('./config/bookshelf');
 
+
 // Load environment variables from .env file
 dotenv.load();
 
@@ -24,6 +25,7 @@ var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var transactionController = require('./controllers/transaction')
 var productController = require('./controllers/product')
+var mapsController = require('./controllers/maps')
 
 var app = express();
 
@@ -79,6 +81,9 @@ app.get('/current-order/:id', userController.ensureAuthenticated, transactionCon
 app.get('/order/:id',transactionController.orderGet)
 app.put('/order', userController.ensureAuthenticated, transactionController.orderPut)
 app.post('/order', userController.ensureAuthenticated, transactionController.orderPost)
+app.get('/address', mapsController.getAutoComplete)
+app.post('/address', mapsController.addressPost)
+app.get('/test', mapsController.test)
 
 app.get('/search/', productController.productGet)
 

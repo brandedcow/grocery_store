@@ -12,7 +12,8 @@ angular.module('MyApp')
       },
       placeOrder: function(data) {
         return $http.post('/order/', data)
-      }
+      },
+
     }
   })
   .service('Checkout', function() {

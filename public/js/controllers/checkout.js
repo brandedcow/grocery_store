@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Cart, Checkout) {
+  .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Cart, Checkout, Maps) {
     $scope.init = function() {
       $scope.getInfo()
       $scope.checkout = {
@@ -18,7 +18,7 @@ angular.module('MyApp')
     }
 
     $scope.toDelivery = function() {
-      localStorageService.set('address',$scope.address)
+      $scope.postAddress()
       $location.path('checkout-delivery')
     }
 
@@ -31,9 +31,46 @@ angular.module('MyApp')
       $location.path('checkout-payment')
     }
 
+
+    $scope.selectAddress = function (address) {
+      $scope.address = address.description
+      localStorageService.set('address',$scope.address)
+      localStorageService.set('addressID',address.place_id)
+      $scope.predictions = ""
+    }
+
+    $scope.addressAutoComplete = function() {
+      $scope.query = $scope.address.replace(new RegExp(' ','g'),'_')
+
+      Maps.getAutoComplete($scope.query)
+        .then(function(response) {
+            $scope.predictions = response.data.json.predictions
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
+    }
+
+    $scope.postAddress = function() {
+      Maps.postAddress({
+        cust: $rootScope.currentUser.id,
+        addressID: localStorageService.get('addressID')
+      })
+        .then(function(response) {
+          window.alert('Valid Address', response)
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
+    }
+
     $scope.stripeCallback = function (code, result) {
       if (result.error) {
-          window.alert('Error' );
+          window.alert('Error');
       } else {
           window.alert('Valid Payment');
           var data = {
@@ -46,6 +83,7 @@ angular.module('MyApp')
           $location.path('checkout-review')
       }
     };
+
     $scope.placeOrder = function() {
       var data = localStorageService.get('chargeData')
       Cart.placeOrder(data)

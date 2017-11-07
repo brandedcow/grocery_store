@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
       table.string('state')
       table.string('zip')
       table.string('country')
+      table.unique(['street_line','zip'])
     })
   ])
 };

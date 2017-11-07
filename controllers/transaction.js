@@ -192,7 +192,7 @@ exports.currentOrderGet = function(req, res, next) {
 exports.orderPut = function(req, res, next) {
   req.body.items.forEach(function(item){
 
-    var temp = new Purchase({
+    new Purchase({
       order_id: req.body.orderNum,
       product_id: item.id
     }).fetch()
@@ -217,9 +217,9 @@ exports.orderPost = function(req, res, next) {
     source: req.body.token,
   }, function(err, charge) {
     if (err) {
-      return res.send(err)
+      return res.status(400).send(err)
     } else {
-      res.send(charge)
+      res.status(200).send(charge)
     }
   })
 

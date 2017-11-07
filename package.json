@@ -11,6 +11,7 @@
     "test:server": "mocha --recursive"
   },
   "dependencies": {
+    "@google/maps": "^0.4.5",
     "angular-local-storage": "^0.7.1",
     "angular-payments": "^1.0.7",
     "async": "^1.5.2",
