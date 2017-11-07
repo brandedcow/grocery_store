@@ -1,3 +1,25 @@
 <div class="container-fluid" ng-init="init()">
-  <p>{{ selectedProduct }}</p>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" id="productMain">
+          <div class="col-sm-6">
+              <div id="mainImage">
+                  <img src="" alt="picture" class="img-responsive">
+              </div>
+          </div>
+      </div>
+
+
+      <div class="box" id="details">
+        <p>{{ selectedProduct.description }}</p>
+          <h4>Product details</h4>
+          <ul>
+              <li>Name: {{ selectedProduct.name }}</li>
+              <li>Price: {{ selectedProduct.price }}</li>
+              <li>Weight: {{ selectedProduct.weight }} lbs</li>
+              <li>In Stock: {{ selectedProduct.quantity }}</li>
+          </ul>
+      </div>
+    </div>
+  </div>
 </div>

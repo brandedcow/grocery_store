@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('DetailCtrl', function($scope, $rootScope, $location, $window, $auth, Session) {
+  .controller('DetailCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Session) {
     $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();
     };
@@ -10,7 +10,7 @@ angular.module('MyApp')
 
     $scope.init = function () {
       $scope.test = $rootScope.currentUser
-      $scope.selectedProduct = Session.getProduct()
+      $scope.selectedProduct = localStorageService.get('selectedProduct')
     }
 
   });
