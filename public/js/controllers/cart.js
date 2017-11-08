@@ -29,10 +29,24 @@ angular.module('MyApp')
       })
     }
 
+    $scope.deleteItem = function(item) {
+      Cart.deleteCartItem({
+        cust: $rootScope.currentUser.id,
+        product_id: item.id
+      })
+        .then(function(response) {
+          $scope.updateCart()
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
+    }
+
     $scope.toCheckout = function() {
       Checkout.setCartInfo($scope.cartInfo)
       localStorageService.set('cartInfo',$scope.cartInfo)
       $location.path("checkout-address")
     }
-
   });

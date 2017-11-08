@@ -7,13 +7,15 @@ angular.module('MyApp')
       updateCart: function(data) {
         return $http.put('/order/', data)
       },
+      deleteCartItem: function (data) {
+        return $http.post(`/order/${data.product_id}`, data)
+      },
       getOrders: function(data) {
         return $http.get(`/order/${data}`)
       },
       placeOrder: function(data) {
         return $http.post('/order/', data)
-      },
-
+      }
     }
   })
   .service('Checkout', function() {

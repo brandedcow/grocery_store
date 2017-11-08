@@ -42,50 +42,45 @@ exports.purchasePost = function(req, res, next) {
     req.assert('quantity', 'Quantity cannot be blank').notEmpty();
 
     var errors = req.validationErrors();
+    var orderID;
 
     if (errors) {
       return res.status(400).send(errors);
     }
 
-    // find current pending order & add purchase
-    new Order({
+    var newOrder = new Order({
       customer_id: req.body.customer_id,
       order_status: 1
-    })
-    .fetch()
-    .then(function(order) {
-      if (order === null) {
-        return res.status(400).send({ msg:'no order found'})
-      } else {
-        // find add same products same order
+    }).fetch()
+      .then(function(order) {
+        if (order === null) {
+          return res.status(400).send({ msg:'no order found'})
+        } else {
+          orderID = order.get('id')
+          return new Purchase({
+            order_id: order.get('id'),
+            product_id: req.body.product_id
+          }).fetch()
+        }
+      })
+    var newPurchase = newOrder.then(function(purchase){
+      if (purchase === null) {
         new Purchase({
-          order_id: order.get('id'),
+          order_id: orderID,
           product_id: req.body.product_id,
-        }).fetch()
-          .then(function(purchase) {
-            // did not find
-            if (purchase === null) {
-              new Purchase({
-                order_id: order.get('id'),
-                product_id: req.body.product_id,
-                quantity: req.body.quantity
-              }).save()
-                .then(function() {
-                  return res.status(200).send({ msg: 'insert success'})
-                })
-            // update found
-            } else {
-              new Purchase({id: purchase.get('id')})
-                .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
-                .then(function() {
-                  return res.status(200).send({ msg: 'update success'})
-                })
-
-            }
+          quantity: req.body.quantity
+        }).save()
+          .then(function() {
+            return res.status(200).send({ msg: 'insert success'})
+          })
+      } else {
+        new Purchase({id: purchase.get('id')})
+          .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
+          .then(function() {
+            return res.status(200).send({ msg: 'update success'})
           })
       }
     })
-
   };
 
 /**
@@ -120,6 +115,34 @@ exports.checkoutPost = function(req, res, next) {
 
 };
 
+exports.orderDelete = function (req, res, next) {
+  var subquery = bookshelf.knex
+    .select('id')
+    .from('orders')
+    .where({
+      customer_id:req.body.cust,
+      order_status: 1
+    })
+    .then(function(rows){
+      return new bookshelf.knex('purchases')
+        .del()
+        .where({
+          order_id: rows[0].id,
+          product_id: req.params.id
+        })
+    })
+    .catch(function(response){
+      return res.status(400).send(response)
+    })
+
+  subquery.then(function(response) {
+    return res.send('deleted')
+  })
+  .catch(function(response){
+    return res.status(400).send('failed')
+  })
+}
+
 
 /**
  * GET /current-order/:id
@@ -128,7 +151,7 @@ exports.checkoutPost = function(req, res, next) {
 exports.currentOrderGet = function(req, res, next) {
   var subquery =
   bookshelf.knex
-    .select('order_id')
+    .select('id')
     .from('orders')
     .where({
       customer_id:req.params.id,
@@ -162,17 +185,6 @@ exports.currentOrderGet = function(req, res, next) {
  * GET /order/:id
  */
  exports.orderGet = function(req, res, next) {
-  //  var subquery =
-  //  bookshelf.knex
-  //    .select(bookshelf.knex.raw('purchases.quantity * products.price as total'))
-  //    .from('products')
-  //    .innerJoin('purchases', 'products.id', 'purchases.product_id')
-  //    .where('purchases.order_id', 'orders.id')
-   //
-  //   bookshelf.knex
-  //     .select('orders.id', 'orders.order_date', 'orders.order_status', subquery.as('total'))
-  //     .from('orders')
-  //     .where('customer_id', req.params.id)
       bookshelf.knex.raw(
         `select orders.id, orders.order_date, orders.order_status,
         (select sum(purchases.quantity * products.price) as total from products inner join purchases on products.id = purchases.product_id where purchases.order_id = orders.id) as total
