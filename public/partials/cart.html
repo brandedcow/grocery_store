@@ -41,7 +41,7 @@
                     <tr>
                         <th colspan="4">Total</th>
                         <th>{{ cartInfo.totalWeight }}</th>
-                        <th colspan="2">${{ cartInfo.total }}</th>
+                        <th colspan="2">{{ cartInfo.total | currency}}</th>
                     </tr>
                 </tfoot>
             </table>
@@ -72,7 +72,7 @@
                 <tbody>
                     <tr>
                         <td>Order subtotal</td>
-                        <th>${{ cartInfo.total }}</th>
+                        <th>{{ cartInfo.total | currency}}</th>
                     </tr>
                     <tr>
                         <td>Shipping and handling</td>
@@ -84,7 +84,7 @@
                     </tr>
                     <tr class="total">
                         <td>Total</td>
-                        <th>${{ cartInfo.total }}</th>
+                        <th>{{ cartInfo.total | currency}}</th>
                     </tr>
                 </tbody>
             </table>
