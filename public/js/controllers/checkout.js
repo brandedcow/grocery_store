@@ -19,7 +19,6 @@ angular.module('MyApp')
 
     $scope.toDelivery = function() {
       $scope.postAddress()
-      $location.path('checkout-delivery')
     }
 
     $scope.toPayment = function() {
@@ -60,6 +59,7 @@ angular.module('MyApp')
       })
         .then(function(response) {
           window.alert('Valid Address', response)
+          $location.path('checkout-delivery')
         })
         .catch(function(response) {
           $scope.messages = {

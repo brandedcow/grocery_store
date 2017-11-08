@@ -1,4 +1,3 @@
-var faker = require('faker')
 
 let createRecord = (knex, id, name, price, description, weight, quantity, category_id) => {
   return knex('products').insert({

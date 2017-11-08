@@ -45,8 +45,12 @@ angular.module('MyApp')
     }
 
     $scope.toCheckout = function() {
-      Checkout.setCartInfo($scope.cartInfo)
-      localStorageService.set('cartInfo',$scope.cartInfo)
-      $location.path("checkout-address")
+      if ($scope.cartInfo.itemCount != 0) {
+        Checkout.setCartInfo($scope.cartInfo)
+        localStorageService.set('cartInfo',$scope.cartInfo)
+        $location.path("checkout-address")
+      } else {
+        window.alert('No Items In Cart')
+      }
     }
   });

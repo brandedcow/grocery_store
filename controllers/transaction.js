@@ -14,7 +14,7 @@ var Order = require('../models/Order')
 var Product = require('../models/Product')
 var Purchase = require('../models/Purchase').model
 var Purchases = require('../models/Purchase').collection
-
+var Delivery = require('../models/Delivery')
 
 exports.ensureOrderExists = function(req, res, next) {
   new Order({ customer_id: req.body.customer_id })
@@ -213,14 +213,22 @@ exports.orderPut = function(req, res, next) {
             quantity: item.quantity
           },{patch:true})
       })
+      .catch(function(response){
+        return res.status(400).send()
+      })
   })
   return res.status(200).send({ msg: 'success' })
 };
 
 /**
  * POST /order/
+ * stripe charge
+ * order status change
+ * inventory change
+ * create delivery
  */
 exports.orderPost = function(req, res, next) {
+  var orderNum, addressNum
   var amount = req.body.amount * 100
   stripe.charges.create({
     amount: amount,
@@ -231,8 +239,58 @@ exports.orderPost = function(req, res, next) {
     if (err) {
       return res.status(400).send(err)
     } else {
-      res.status(200).send(charge)
+      // charge successfully made
     }
   })
+//
+  // var subquery = bookshelf.knex
+  //   .select('id')
+  //   .from('orders')
+  //   .where({
+  //     customer_id:req.body.customer_id,
+  //     order_status: 1
+  //   })
+  //   .then(function(rows){
+  //     return new Order({
+  //       id: rows[0].id,
+  //       customer_id:req.body.customer_id
+  //     }).fetch()
+  //   })
+  //   .catch(function(response){
+  //     return res.status(400).send(response)
+  //   })
+  //
+  // var inventoryUpdate = subquery.then(function(response) {
+  //     orderNum = response.get('id')
+  //     response.save({
+  //       order_status: 2
+  //     },{patch:true})
+  //
+  //     return bookshelf.knex.raw(
+  //       'update products join purchases on products.id = purchases.product_id set products.quantity = products.quantity - purchases.quantity'
+  //     )
+  //   })
+  //   .catch(function(reponse) {
+  //     return res.status(400).send('order status change failed')
+  //   })
+  //
+  // var createDelivery = inventoryUpdate.then(function(response) {
+  //     return new Delivery({
+  //       order_id:,
+  //       address_id:,
+  //       delivery_status: 'In Transit'
+  //     })
+  //   })
+  //   .catch(function(reponse) {
+  //     return res.status(400).send('inventory update failed')
+  //   })
+  //
+  // createDelivery
+  //   .then(function(reponse) {
+  //     return res.status(200).send('done')
+  //   })
+  //   .catch(function(reponse) {
+  //     return res.status(400).send('inventory update failed')
+  //   })
 
 }
