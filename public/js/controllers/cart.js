@@ -8,6 +8,7 @@ angular.module('MyApp')
       Cart.getCartInfo($rootScope.currentUser.id)
        .then(function(response) {
          $scope.cartInfo = response.data
+         localStorageService.set('cartInfo',$scope.cartInfo)
        })
        .catch(function(response) {
          $scope.messages = {
@@ -45,32 +46,33 @@ angular.module('MyApp')
     }
 
     $scope.toCheckout = function() {
-      if ($scope.cartInfo.itemCount != 0) {
-        var temp = Cart.updateCart($scope.cartInfo)
-        .then(function(response) {
-          $scope.messages = response.data
-          return Cart.getCartInfo($rootScope.currentUser.id)
-        })
-        .catch(function(response) {
-          $scope.messages = {
-            error: Array.isArray(response.data) ? response.data : [response.data]
-          };
-        })
+      var temp = Cart.updateCart($scope.cartInfo)
+      .then(function(response) {
+        $scope.messages = response.data
+        return Cart.getCartInfo($rootScope.currentUser.id)
 
-        temp.then(function(response) {
-          $scope.cartInfo = response.data
-          localStorageService.set('cartInfo',$scope.cartInfo)
-        })
-        .catch(function(response) {
-          $scope.messages = {
-            error: Array.isArray(response.data) ? response.data : [response.data]
-          };
-        })
+      })
+      .catch(function(response) {
+        $scope.messages = {
+          error: Array.isArray(response.data) ? response.data : [response.data]
+        };
+      })
 
-        Checkout.setCartInfo($scope.cartInfo)
-        $location.path("checkout-address")
-      } else {
-        window.alert('No Items In Cart')
-      }
+      temp.then(function(response) {
+         $scope.cartInfo = response.data
+         localStorageService.set('cartInfo',$scope.cartInfo)
+         if ($scope.cartInfo.itemCount != 0) {
+           $location.path("checkout-address")
+         } else {
+           window.alert('No Items In Cart')
+         }
+       })
+       .catch(function(response) {
+         $scope.messages = {
+           error: Array.isArray(response.data) ? response.data : [response.data]
+         };
+       })
+
+
     }
   });
