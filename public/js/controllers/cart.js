@@ -46,8 +46,28 @@ angular.module('MyApp')
 
     $scope.toCheckout = function() {
       if ($scope.cartInfo.itemCount != 0) {
+        var temp = Cart.updateCart($scope.cartInfo)
+        .then(function(response) {
+          $scope.messages = response.data
+          return Cart.getCartInfo($rootScope.currentUser.id)
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
+
+        temp.then(function(response) {
+          $scope.cartInfo = response.data
+          localStorageService.set('cartInfo',$scope.cartInfo)
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
+
         Checkout.setCartInfo($scope.cartInfo)
-        localStorageService.set('cartInfo',$scope.cartInfo)
         $location.path("checkout-address")
       } else {
         window.alert('No Items In Cart')
