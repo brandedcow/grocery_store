@@ -68,20 +68,14 @@ exports.addressPost = function (req, res, next) {
     })
 
   var address = place.then(function(response) {
-      return new CustomerAddress({
+      new CustomerAddress({
         customer_id: req.body.cust,
         address_id: response.id
       }).save()
+      return res.status(200).send({addressID:response.id})
     })
     .catch(function(response) {
-      res.status(400).send(response)
-    })
-
-    address.then(function(response) {
-      res.status(200).send('done')
-    })
-    .catch(function(response) {
-      res.status(400).send(response)
+      return res.status(400).send(response)
     })
 }
 

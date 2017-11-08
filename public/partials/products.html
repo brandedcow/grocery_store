@@ -1,6 +1,6 @@
 <div class="container-fluid" ng-init="init()">
   <div ng-if="messages.error" role="alert" class="alert alert-danger text-center">
-    {{ messages }}
+    <h4 ng-repeat="error in messages.error">{{ error.msg }}</h4>
   </div>
   <div class="row">
     <div class="col-sm-3">

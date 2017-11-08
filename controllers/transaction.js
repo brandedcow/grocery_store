@@ -37,16 +37,7 @@ exports.ensureOrderExists = function(req, res, next) {
    * body: { customer_id, product_id, quantity }
    */
 exports.purchasePost = function(req, res, next) {
-    req.assert('customer_id', 'Customer cannot be blank').notEmpty()
-    req.assert('product_id', 'Product cannot be blank').notEmpty();
-    req.assert('quantity', 'Quantity cannot be blank').notEmpty();
-
-    var errors = req.validationErrors();
     var orderID;
-
-    if (errors) {
-      return res.status(400).send(errors);
-    }
 
     var newOrder = new Order({
       customer_id: req.body.customer_id,
@@ -54,33 +45,71 @@ exports.purchasePost = function(req, res, next) {
     }).fetch()
       .then(function(order) {
         if (order === null) {
-          return res.status(400).send({ msg:'no order found'})
+          return new Order({
+            customer_id: req.body.customer_id,
+            order_status: 1
+          }).save()
         } else {
-          orderID = order.get('id')
-          return new Purchase({
-            order_id: order.get('id'),
-            product_id: req.body.product_id
-          }).fetch()
+          return order
         }
       })
-    var newPurchase = newOrder.then(function(purchase){
+      .catch(function(err) {
+        res.status(400).send()
+      })
+
+    var newPurchase = newOrder.then(function(order) {
+      orderID = order.get('id')
+      return new Purchase({
+        order_id: orderID,
+        product_id: req.body.product_id,
+        quantity: req.body.quantity
+      }).fetch()
+    })
+    .catch(function(err) {
+      res.status(400).send()
+    })
+
+    newPurchase.then(function(purchase) {
       if (purchase === null) {
         new Purchase({
           order_id: orderID,
           product_id: req.body.product_id,
           quantity: req.body.quantity
         }).save()
-          .then(function() {
-            return res.status(200).send({ msg: 'insert success'})
-          })
+        res.status(200).send({ message: 'insert success'})
       } else {
         new Purchase({id: purchase.get('id')})
           .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
           .then(function() {
             return res.status(200).send({ msg: 'update success'})
           })
+          .catch(function(err) {
+            res.status(400).send()
+          })
       }
     })
+    .catch(function(err) {
+      res.status(400).send()
+    })
+
+    // var newPurchase = newOrder.then(function(purchase){
+    //   if (purchase === null) {
+    //     new Purchase({
+    //       order_id: orderID,
+    //       product_id: req.body.product_id,
+    //       quantity: req.body.quantity
+    //     }).save()
+    //       .then(function() {
+    //         return res.status(200).send({ msg: 'insert success'})
+    //       })
+    //   } else {
+    //     new Purchase({id: purchase.get('id')})
+    //       .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
+    //       .then(function() {
+    //         return res.status(200).send({ msg: 'update success'})
+    //       })
+    //   }
+    // })
   };
 
 /**
@@ -228,7 +257,7 @@ exports.orderPut = function(req, res, next) {
  * create delivery
  */
 exports.orderPost = function(req, res, next) {
-  var orderNum, addressNum
+  var orderNum
   var amount = req.body.amount * 100
   stripe.charges.create({
     amount: amount,
@@ -242,48 +271,55 @@ exports.orderPost = function(req, res, next) {
       // charge successfully made
     }
   })
-//
-  // var subquery = bookshelf.knex
-  //   .select('id')
-  //   .from('orders')
-  //   .where({
-  //     customer_id:req.body.customer_id,
-  //     order_status: 1
-  //   })
-  //   .then(function(rows){
-  //     return new Order({
-  //       id: rows[0].id,
-  //       customer_id:req.body.customer_id
-  //     }).fetch()
-  //   })
-  //   .catch(function(response){
-  //     return res.status(400).send(response)
-  //   })
-  //
-  // var inventoryUpdate = subquery.then(function(response) {
-  //     orderNum = response.get('id')
-  //     response.save({
-  //       order_status: 2
-  //     },{patch:true})
-  //
-  //     return bookshelf.knex.raw(
-  //       'update products join purchases on products.id = purchases.product_id set products.quantity = products.quantity - purchases.quantity'
-  //     )
-  //   })
-  //   .catch(function(reponse) {
-  //     return res.status(400).send('order status change failed')
-  //   })
-  //
-  // var createDelivery = inventoryUpdate.then(function(response) {
-  //     return new Delivery({
-  //       order_id:,
-  //       address_id:,
-  //       delivery_status: 'In Transit'
-  //     })
-  //   })
-  //   .catch(function(reponse) {
-  //     return res.status(400).send('inventory update failed')
-  //   })
+// find order
+  var subquery = bookshelf.knex
+    .select('id')
+    .from('orders')
+    .where({
+      customer_id:req.body.customer_id,
+      order_status: 1
+    })
+    .then(function(rows){
+      orderNum =rows[0].id
+      return new Order({
+        id: rows[0].id,
+        customer_id:req.body.customer_id
+      }).fetch()
+    })
+    .catch(function(response){
+      return res.status(400).send(response)
+    })
+  // change order status
+  var inventoryUpdate = subquery.then(function(response) {
+      orderNum = response.get('id')
+      response.save({
+        order_status: 2
+      },{patch:true})
+
+      return bookshelf.knex.raw(
+        'update products join purchases on products.id = purchases.product_id set products.quantity = products.quantity - purchases.quantity'
+      )
+    })
+    .catch(function(reponse) {
+      return res.status(400).send('order status change failed')
+    })
+
+  var findAddress = inventoryUpdate.then(function(response) {
+      return new Delivery({
+        order_id:orderNum,
+        address_id:req.body.address,
+        delivery_status: 'In Transit'
+      }).save()
+    })
+    .catch(function(reponse) {
+      return res.status(400).send('inventory update failed')
+    })
+  var createDelivery = findAddress.then(function(response) {
+    res.status(200).send('done')
+  })
+  .catch(function(response) {
+    res.status(400).send(response)
+  })
   //
   // createDelivery
   //   .then(function(reponse) {

@@ -33,7 +33,6 @@ angular.module('MyApp')
 
     $scope.selectAddress = function (address) {
       $scope.address = address.description
-      localStorageService.set('address',$scope.address)
       localStorageService.set('addressID',address.place_id)
       $scope.predictions = ""
     }
@@ -58,7 +57,8 @@ angular.module('MyApp')
         addressID: localStorageService.get('addressID')
       })
         .then(function(response) {
-          window.alert('Valid Address', response)
+          localStorageService.set('address',response.data.addressID)
+          window.alert('Valid Address')
           $location.path('checkout-delivery')
         })
         .catch(function(response) {

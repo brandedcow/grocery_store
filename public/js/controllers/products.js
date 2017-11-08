@@ -5,7 +5,7 @@ angular.module('MyApp')
     };
 
     $scope.isAuthenticated = function() {
-      return $auth.isAuthenticated();
+      return $auth.isAuthenticated()
     };
 
     $scope.init = function () {
