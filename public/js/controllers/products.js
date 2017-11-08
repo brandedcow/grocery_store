@@ -73,6 +73,17 @@ angular.module('MyApp')
           error: Array.isArray(response.data) ? response.data : [response.data]
         };
       })
+    }
 
+    $scope.searchProduct = function() {
+      Products.searchProduct(`name=${$scope.item}`)
+        .then(function(response) {
+          $scope.results = response.data
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
     }
   });

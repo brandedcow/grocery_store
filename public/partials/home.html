@@ -1,8 +1,7 @@
 <div class="container-fluid">
   {{ response }}
   <div class="text-center row">
-    <input ng-model="item" type="text" ></input>
-    <a ng-click="searchProduct()" class="btn btn-default">Search</a>
+    <input ng-change="searchProduct()" ng-model="item" type="text"/>
   </div>
   <div class="row">
     <div class="product col-sm-6 col-md-4" ng-repeat="item in results">

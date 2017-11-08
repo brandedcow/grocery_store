@@ -6,7 +6,7 @@ angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule', 'angular
     $routeProvider
       .when('/', {
         templateUrl: 'partials/home.html',
-        controller: 'HomeCtrl'
+        controller: 'ProductsCtrl'
       })
       .when('/products', {
         templateUrl: 'partials/products.html',
