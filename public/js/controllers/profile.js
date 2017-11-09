@@ -16,6 +16,18 @@ angular.module('MyApp')
         })
     }
 
+    $scope.deleteAddress = function(add) {
+      Account.deleteAddress($rootScope.currentUser.id, add)
+        .then(function(response){
+          $scope.getAddress()
+        })
+        .catch(function(response){
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          }
+        })
+    }
+
     $scope.profile = $rootScope.currentUser;
 
     $scope.updateProfile = function() {

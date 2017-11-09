@@ -85,6 +85,7 @@ app.post('/order/:id', userController.ensureAuthenticated, transactionController
 app.get('/address', mapsController.getAutoComplete)
 app.get('/address/:id', mapsController.getAddress)
 app.post('/address', mapsController.addressPost)
+app.delete('/address/:id', mapsController.addressDelete)
 app.get('/test', mapsController.test)
 
 app.get('/search/', productController.productGet)

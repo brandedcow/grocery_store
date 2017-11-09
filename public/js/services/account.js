@@ -18,6 +18,9 @@ angular.module('MyApp')
       },
       getAddresses: function(id) {
         return $http.get(`/address/${id}`)
+      },
+      deleteAddress: function(id, add) {
+        return $http.delete(`/address/${id}?address=${add}`)
       }
     };
   });

@@ -91,25 +91,6 @@ exports.purchasePost = function(req, res, next) {
     .catch(function(err) {
       res.status(400).send()
     })
-
-    // var newPurchase = newOrder.then(function(purchase){
-    //   if (purchase === null) {
-    //     new Purchase({
-    //       order_id: orderID,
-    //       product_id: req.body.product_id,
-    //       quantity: req.body.quantity
-    //     }).save()
-    //       .then(function() {
-    //         return res.status(200).send({ msg: 'insert success'})
-    //       })
-    //   } else {
-    //     new Purchase({id: purchase.get('id')})
-    //       .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
-    //       .then(function() {
-    //         return res.status(200).send({ msg: 'update success'})
-    //       })
-    //   }
-    // })
   };
 
 /**

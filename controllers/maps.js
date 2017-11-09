@@ -46,10 +46,21 @@ exports.getAddress = function(req, res, next) {
         address: temp
       })
     })
-    return res.send(responseArr)
+    return res.status(200).send(responseArr)
    })
    .catch(function(err) {
      res.status(400).send(err)
+   })
+}
+
+exports.addressDelete =function(req, res, next) {
+  bookshelf.knex.raw(
+    `delete from customer_addresses where customer_id=${req.params.id} and address_id=${req.query.address}`
+  ).then(function() {
+    return res.status(200).send({messages: 'deleted'})
+  })
+   .catch(function(err) {
+     return res.status(400).send(err)
    })
 }
 

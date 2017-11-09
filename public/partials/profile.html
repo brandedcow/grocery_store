@@ -36,7 +36,7 @@
         <table>
           <tr ng-repeat="row in addresses">
             <td>{{ row.address}}</td>
-            <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
+            <td><a ng-click="deleteAddress(row.id)"><i class="fa fa-trash-o"></i></a></td>
           </tr>
         </table>
       </div>
