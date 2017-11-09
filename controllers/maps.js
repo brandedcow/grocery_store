@@ -2,6 +2,8 @@ var googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyCdR2CTnqWIErp_admq0FTsFskKeTdJZn8',
   Promise: Promise
 })
+var bookshelf = require('../config/bookshelf');
+
 
 var Address = require('../models/Address')
 var CustomerAddress = require('../models/CustomerAddress')
@@ -30,6 +32,25 @@ exports.getPlace = function(req, res, next) {
     .catch(function(err) {
       res.status(400).send(err)
     })
+}
+
+exports.getAddress = function(req, res, next) {
+  var responseArr = [];
+  bookshelf.knex.raw(
+    `select addresses.id, street_line, city, state, zip, country from customer_addresses left join addresses on customer_addresses.address_id = addresses.id where customer_id=${req.params.id}`
+  ).then(function(response){
+    response[0].forEach(function(item) {
+      let temp = item.street_line+', '+item.city+', '+item.state+', '+item.zip+', '+item.country
+      responseArr.push({
+        id: item.id,
+        address: temp
+      })
+    })
+    return res.send(responseArr)
+   })
+   .catch(function(err) {
+     res.status(400).send(err)
+   })
 }
 
 exports.addressPost = function (req, res, next) {

@@ -1,13 +1,27 @@
 angular.module('MyApp')
-  .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Cart, Checkout, Maps) {
+  .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Account, Cart, Checkout, Maps) {
     $scope.init = function() {
       $scope.getInfo()
-      $scope.checkout = {
-        cartInfo: $scope.cartInfo,
-        address: $scope.address,
-        delivery: $scope.delivery,
-        payment: $scope.payment
-      }
+      // $scope.checkout = {
+      //   cartInfo: $scope.cartInfo,
+      //   address: $scope.address,
+      //   delivery: $scope.delivery,
+      //   payment: $scope.payment
+      // }
+      $scope.getAddresses()
+      $scope.selectedExisting = false;
+    }
+
+    $scope.getAddresses = function() {
+      Account.getAddresses($rootScope.currentUser.id)
+        .then(function(response){
+          $scope.addresses = response.data
+        })
+        .catch(function(response){
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          }
+        })
     }
 
     $scope.getInfo = function() {
@@ -30,8 +44,15 @@ angular.module('MyApp')
       $location.path('checkout-payment')
     }
 
+    $scope.selectExistingAddress = function(row) {
+      $scope.selectedExisting = true;
+      $scope.address = row.address
+      localStorageService.set('address',row.id)
+      $scope.prediction = ""
+    }
 
     $scope.selectAddress = function (address) {
+      $scope.selectedExisting = false;
       $scope.address = address.description
       localStorageService.set('addressID',address.place_id)
       $scope.predictions = ""
@@ -52,20 +73,25 @@ angular.module('MyApp')
     }
 
     $scope.postAddress = function() {
-      Maps.postAddress({
-        cust: $rootScope.currentUser.id,
-        addressID: localStorageService.get('addressID')
-      })
-        .then(function(response) {
-          localStorageService.set('address',response.data.addressID)
-          window.alert('Valid Address')
-          $location.path('checkout-delivery')
+      if ($scope.selectedExisting === true) {
+        $location.path('checkout-delivery')
+      } else {
+        Maps.postAddress({
+          cust: $rootScope.currentUser.id,
+          addressID: localStorageService.get('addressID')
         })
-        .catch(function(response) {
-          $scope.messages = {
-            error: Array.isArray(response.data) ? response.data : [response.data]
-          };
-        })
+          .then(function(response) {
+            localStorageService.set('address',response.data.addressID)
+            window.alert('Valid Address')
+            $location.path('checkout-delivery')
+          })
+          .catch(function(response) {
+            $scope.messages = {
+              error: Array.isArray(response.data) ? response.data : [response.data]
+            };
+          })
+      }
+
     }
 
     $scope.stripeCallback = function (code, result) {

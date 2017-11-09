@@ -1,5 +1,21 @@
 angular.module('MyApp')
   .controller('ProfileCtrl', function($scope, $rootScope, $location, $window, $auth, Account) {
+    $scope.init = function () {
+      $scope.getAddress()
+    }
+
+    $scope.getAddress = function() {
+      Account.getAddresses($rootScope.currentUser.id)
+        .then(function(response){
+          $scope.addresses = response.data
+        })
+        .catch(function(response){
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          }
+        })
+    }
+
     $scope.profile = $rootScope.currentUser;
 
     $scope.updateProfile = function() {

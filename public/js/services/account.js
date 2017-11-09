@@ -15,6 +15,9 @@ angular.module('MyApp')
       },
       resetPassword: function(data) {
         return $http.post('/reset', data);
+      },
+      getAddresses: function(id) {
+        return $http.get(`/address/${id}`)
       }
     };
   });

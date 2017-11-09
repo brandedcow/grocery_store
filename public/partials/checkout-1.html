@@ -18,18 +18,25 @@
 
                   <div class="content large-padded-row">
                      <div class="padded-row">
+                       <div>
+                         <legend>Stored Addresses</legend>
+                         <ul ng-repeat="row in addresses" style="list-style:none;">
+                           <li class="btn btn-default"><a ng-click="selectExistingAddress(row)">{{ row.address }}</a></li>
+                         </ul>
+                       </div>
+                       <legend>Search Address</legend>
+                       <input type="text"
+                              class="form-control"
+                              placeholder="Enter Address"
+                              typeahead="power"
+                              ng-model="address"
+                              ng-change="addressAutoComplete()"/>
+                       <div>
+                         <ul ng-repeat="address in predictions" style="list-style:none;">
+                           <li class="btn"><a ng-click="selectAddress(address)">{{ address.description }}</a></li>
+                         </ul>
+                       </div>
                      </div>
-                      <input type="text"
-                             class="form-control"
-                             placeholder="Enter Address"
-                             typeahead="power"
-                             ng-model="address"
-                             ng-change="addressAutoComplete()"/>
-                      <div>
-                        <ul ng-repeat="address in predictions" style="list-style:none;">
-                          <li class="btn"><a ng-click="selectAddress(address)">{{ address.description }}</a></li>
-                        </ul>
-                      </div>
                   </div>
 
                   <div class="box-footer">
