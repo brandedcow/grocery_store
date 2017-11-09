@@ -73,6 +73,10 @@ angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule', 'angular
         templateUrl: 'partials/track-order.html',
         controller: 'TrackOrderCtrl'
       })
+      .when('/manage', {
+        templateUrl: 'partials/manage.html',
+        controller: 'ManageCtrl'
+      })
       .otherwise({
         templateUrl: 'partials/404.html'
       });

@@ -110,15 +110,3 @@ exports.addressPost = function (req, res, next) {
       return res.status(400).send(response)
     })
 }
-
-exports.test = function(req, res, next) {
-  googleMapsClient.place({
-    placeid: req.query.input
-  }).asPromise()
-    .then(function(response) {
-      res.status(200).send(response)
-    })
-    .catch(function(err) {
-      res.status(400).send(err)
-    })
-}

@@ -26,6 +26,7 @@ var contactController = require('./controllers/contact');
 var transactionController = require('./controllers/transaction')
 var productController = require('./controllers/product')
 var mapsController = require('./controllers/maps')
+var adminController = require('./controllers/admin')
 
 var app = express();
 
@@ -86,9 +87,10 @@ app.get('/address', mapsController.getAutoComplete)
 app.get('/address/:id', mapsController.getAddress)
 app.post('/address', mapsController.addressPost)
 app.delete('/address/:id', mapsController.addressDelete)
-app.get('/test', mapsController.test)
-
 app.get('/search/', productController.productGet)
+app.get('/admin/products', adminController.productGet)
+app.get('/admin/accounts', adminController.accountGet)
+app.get('/admin/addresses', adminController.addressGet)
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);

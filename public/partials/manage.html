@@ -1,0 +1,87 @@
+<div class="container-fluid" ng-init="init()">
+  <ul style="list-style:none;">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#accounts">Accounts</a></li>
+    <li><a href="#addresses">Addresses</a></li>
+  </ul>
+
+  <div name="products" class="col-md-12 table-responsive">
+    <legend>Products</legend>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>price</th>
+          <th>description</th>
+          <th>weight</th>
+          <th>quantity</th>
+          <th>category_id</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="product in products">
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.weight }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.category_id }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div name="accounts" class="col-md-12 table-responsive">
+    <legend>Accounts</legend>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>email</th>
+          <th>created on</th>
+          <th>admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="account in accounts">
+          <td>{{ account.id }}</td>
+          <td>{{ account.name }}</td>
+          <td>{{ account.email }}</td>
+          <td>{{ account.created_at }}</td>
+          <td>{{ account.admin }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div name="addresses" class="col-md-12 table-responsive">
+    <legend>Addresses</legend>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>street line</th>
+          <th>city</th>
+          <th>state</th>
+          <th>zip</th>
+          <th>country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="address in addresses">
+          <td>{{ address.id }}</td>
+          <td>{{ address.street_line }}</td>
+          <td>{{ address.city }}</td>
+          <td>{{ address.state }}</td>
+          <td>{{ address.zip }}</td>
+          <td>{{ address.country }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
