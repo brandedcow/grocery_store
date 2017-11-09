@@ -5,6 +5,7 @@ angular.module('MyApp')
         .then(function(response) {
           $auth.setToken(response);
           $rootScope.currentUser = response.data.user;
+          $rootScope.isAdmin = response.data.user.admin;
           $window.localStorage.user = JSON.stringify(response.data.user);
           $location.path('/');
         })

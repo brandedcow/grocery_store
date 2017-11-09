@@ -14,6 +14,11 @@
         <li ng-class="{ active: isActive('/')}"><a href="/">Home</a></li>
         <li ng-class="{ active: isActive('/products')}"><a href="/products">Products</a></li>
       </ul>
+      <ul ng-if="isAdmin()" class ="nav navbar-nav">
+        <li class="dropdown">
+          <a href="/manage">Manage</a>
+        </li>
+      </ul>
       <ul ng-if="isAuthenticated()" class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" data-toggle="dropdown" class="navbar-avatar dropdown-toggle">
