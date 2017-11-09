@@ -4,6 +4,9 @@ angular.module('MyApp')
       getCategories: function() {
         return $http.get('/api/v1/categories')
       },
+      getByCategory: function(id) {
+        return $http.get(`/category/${id}`)
+      },
       getProducts: function() {
         return $http.get('/api/v1/products')
       },

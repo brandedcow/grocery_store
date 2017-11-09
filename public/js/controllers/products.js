@@ -26,6 +26,18 @@ angular.module('MyApp')
         })
     }
 
+    $scope.getByCategory = function (id) {
+      Products.getByCategory(id)
+        .then(function(response) {
+          $scope.products = response.data
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
+    }
+
     $scope.getProducts = function() {
       Products.getProducts()
       .then(function(response) {

@@ -11,7 +11,7 @@
           <div class="panel-body">
             <ul class="nav nav-pills nav-stacked category-menu">
               <li ng-repeat="item in categories">
-                <a href="#">{{ item.name }}</a>
+                <a ng-click="getByCategory(item.id)">{{ item.name }}</a>
               </li>
             </ul>
           </div>
