@@ -20,6 +20,9 @@
               <li>In Stock: {{ selectedProduct.quantity }}</li>
           </ul>
       </div>
+      <div ng-if="isAuthenticated()">
+        <a ng-click="addToCart(selectedProduct.id)" class="btn btn-default">Add to cart</a>
+      </div>
     </div>
   </div>
 </div>

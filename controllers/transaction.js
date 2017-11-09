@@ -62,7 +62,6 @@ exports.purchasePost = function(req, res, next) {
       return new Purchase({
         order_id: orderID,
         product_id: req.body.product_id,
-        quantity: req.body.quantity
       }).fetch()
     })
     .catch(function(err) {
