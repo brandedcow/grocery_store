@@ -93,9 +93,10 @@ angular.module('MyApp')
     }
 
     $scope.searchProduct = function() {
-      if($rootScope.initSearchValue){
+      if($rootScope.initSearchValue && $rootScope.initSearchValueBool){
         $scope.item = $rootScope.initSearchValue
       }
+      $rootScope.initSearchValueBool = false
       Products.searchProduct(`name=${$scope.item}`)
         .then(function(response) {
           $scope.results = response.data
@@ -109,6 +110,7 @@ angular.module('MyApp')
 
     $scope.setInitSearchValue = function() {
       $rootScope.initSearchValue = $scope.item
+      $rootScope.initSearchValueBool = true
       // InputValue.setName($scope.item)
 
     }
