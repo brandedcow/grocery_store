@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ProductsCtrl', function($scope, $rootScope, $location, $window, $auth,localStorageService, Products, Session) {
+  .controller('ProductsCtrl', function($scope, $rootScope, $location, $window, $auth,localStorageService, Products, Session, InputValue) {
     $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();
     };
@@ -42,6 +42,11 @@ angular.module('MyApp')
       Products.getProducts()
       .then(function(response) {
         $scope.products = response.data
+        $scope.results = $scope.products
+        if($scope.item = $rootScope.initSearchValue){
+          $scope.searchProduct()
+        }
+
       })
       .catch(function(response) {
         $scope.messages = {
@@ -88,6 +93,9 @@ angular.module('MyApp')
     }
 
     $scope.searchProduct = function() {
+      if($rootScope.initSearchValue){
+        $scope.item = $rootScope.initSearchValue
+      }
       Products.searchProduct(`name=${$scope.item}`)
         .then(function(response) {
           $scope.results = response.data
@@ -97,5 +105,15 @@ angular.module('MyApp')
             error: Array.isArray(response.data) ? response.data : [response.data]
           };
         })
+    }
+
+    $scope.setInitSearchValue = function() {
+      $rootScope.initSearchValue = $scope.item
+      // InputValue.setName($scope.item)
+
+    }
+
+    $scope.goToProductsPage = function() {
+      $location.path("/products")
     }
   });

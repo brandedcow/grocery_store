@@ -1,6 +1,9 @@
 <div class="container-fluid">
   <div class="text-center row">
-    <input ng-change="searchProduct()" ng-model="item" type="text"/>
+    <form ng-submit="goToProductsPage()">
+      Search Product: <input ng-change="setInitSearchValue()" ng-model="item" type="text" name="Product Name"><br>
+    <!-- <input type="submit" value="Submit"> -->
+    </form>
   </div>
   <div class="row">
     <div class="product col-sm-6 col-md-4" ng-repeat="item in results">
