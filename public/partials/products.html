@@ -3,6 +3,10 @@
     <h4 ng-repeat="error in messages.error">{{ error.msg }}</h4>
   </div>
   <div class="row">
+    <div class="text-center">
+      <label style="word-spacing: 3px">Product Search: </label>
+      <input ng-change="searchProduct()" ng-model="item" type="text" ng-value="initSearchValue"/>
+    </div>
     <div class="col-sm-3">
         <div class="panel panel-default sidebar-menu">
           <div class="panel-heading">
@@ -18,9 +22,10 @@
         </div>
     </div>
     <div class="col-sm-9">
+
       <div class="row products">
 
-            <div class="product col-sm-6 col-md-4" ng-repeat="item in products">
+            <div class="product col-sm-6 col-md-4" ng-repeat="item in results">
                 <!-- <div class="image">
                     <a href="shop-detail.html">
                         <img src="img/product3.jpg" alt="" class="img-responsive image1">
