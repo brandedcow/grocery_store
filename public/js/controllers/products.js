@@ -79,6 +79,7 @@ angular.module('MyApp')
       Products.addToCart(data)
       .then(function(response) {
         $scope.messages = response.data
+        window.alert('Added to Cart')
       })
       .catch(function(response) {
         $scope.messages = {
