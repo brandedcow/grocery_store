@@ -20,7 +20,11 @@
                                 <td>{{ order.order_date }}</td>
                                 <td>${{ order.total }}</td>
                                 <td>{{ order.order_status }}</td>
-                                <td></td>
+                                <td>
+                                    <button>
+                                        <a ng-click = "trackOrder()">Track Order</a>
+                                    </button>
+                                </td>
                             </tr>
                           </tbody>
                           <tfoot>
