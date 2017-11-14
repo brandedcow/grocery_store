@@ -1,9 +1,10 @@
 angular.module('MyApp')
-  .controller('TrackOrderCtrl', function($scope, $rootScope, $location, $window, $auth, Products, Session) {
+  .controller('TrackOrderCtrl', function($scope, $rootScope, $location, $window, $auth, Products, Session, localStorageService) {
     $scope.var = $rootScope.currentUser;
     $scope.googleMapRequest = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAd3Q644s4HHXat5mvN8xKlyT7pi1A3eYY&callback=initMap"
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
 
+    $scope.address = localStorageService.get('trackingInfo').address
     // JavaScript source code
     function initMap() {
 //		window.alert("Page popped up");
@@ -116,7 +117,7 @@ function calculateAndDisplayRoute(map, directionsService, directionsDisplay, dis
     var storeTwo = { lat: 37.350531, lng: -121.922172 }
     directionsService.route({
         origin: storeOne,
-        destination: document.getElementById('end').value,
+        destination: $scope.address,
         travelMode: 'DRIVING'
     }, function (response, status) {
         if (status === 'OK') {
@@ -128,7 +129,7 @@ function calculateAndDisplayRoute(map, directionsService, directionsDisplay, dis
 
     distCalcService.getDistanceMatrix({
         origins: [storeOne],
-        destinations: [document.getElementById('end').value],
+        destinations: [$scope.address],
         travelMode: 'DRIVING',
         unitSystem: google.maps.UnitSystem.METRIC,
         avoidHighways: false,
