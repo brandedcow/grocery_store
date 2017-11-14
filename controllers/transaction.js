@@ -196,7 +196,8 @@ exports.currentOrderGet = function(req, res, next) {
  exports.orderGet = function(req, res, next) {
       bookshelf.knex.raw(
         `select orders.id, orders.order_date, orders.order_status,
-        (select sum(purchases.quantity * products.price) as total from products inner join purchases on products.id = purchases.product_id where purchases.order_id = orders.id) as total
+        (select sum(purchases.quantity * products.price) as total from products inner join purchases on products.id = purchases.product_id where purchases.order_id = orders.id) as total,
+        (select (select concat(street_line, ', ', city, ', ' , state , ', ' , zip , ', ' , country) as address from addresses where id=address_id) from deliveries where order_id =orders.id) as address
         from orders where customer_id = ${req.params.id};`
       ).then(function(response) {
         if (!response) {

@@ -3,17 +3,15 @@
     <h1>Welcome to OFS</h1>
     <form ng-submit="goToProductsPage()">
       Search Product: <input ng-change="setInitSearchValue()" ng-model="item" type="text" name="Product Name"><br>
-    <!-- <input type="submit" value="Submit"> -->
     </form>
   </div>
-  <div class="row">
+   <div class="row">
     <div class="product col-sm-6 col-md-4" ng-repeat="item in results">
-        <!-- <div class="image">
+        <div class="image">
             <a href="shop-detail.html">
                 <img src="img/product3.jpg" alt="" class="img-responsive image1">
             </a>
-        </div> -->
-        <!-- /.image -->
+        </div>
         <div class="text">
             <h3><a ng-click="getProduct(item.id)">{{ item.name }}</a></h3>
             <p class="price">${{ item.price }}</p>
@@ -23,7 +21,6 @@
             </p>
 
         </div>
-        <!-- /.text -->
     </div>
   </div>
   <div class="row">

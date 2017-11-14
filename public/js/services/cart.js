@@ -10,8 +10,8 @@ angular.module('MyApp')
       deleteCartItem: function (data) {
         return $http.post(`/order/${data.product_id}`, data)
       },
-      getOrders: function(data) {
-        return $http.get(`/order/${data}`)
+      getOrders: function(id) {
+        return $http.get(`/order/${id}`)
       },
       placeOrder: function(data) {
         return $http.post('/order/', data)

@@ -9,9 +9,10 @@ angular.module('MyApp')
     };
 
     $scope.init = function () {
-      $scope.test = "start"
       $scope.getCategories()
       $scope.getProducts()
+      $scope.item = localStorageService.get('search')
+      $scope.searchProduct()
     }
 
     $scope.getCategories = function() {
@@ -43,9 +44,6 @@ angular.module('MyApp')
       .then(function(response) {
         $scope.products = response.data
         $scope.results = $scope.products
-        if($scope.item = $rootScope.initSearchValue){
-          $scope.searchProduct()
-        }
 
       })
       .catch(function(response) {
@@ -56,8 +54,6 @@ angular.module('MyApp')
     }
 
     $scope.getProduct = function(itemID) {
-      $scope.test = "getProduct" + itemID
-
       Products.getProduct(itemID)
       .then(function(response) {
         Session.reset()
@@ -94,10 +90,6 @@ angular.module('MyApp')
     }
 
     $scope.searchProduct = function() {
-      if($rootScope.initSearchValue && $rootScope.initSearchValueBool){
-        $scope.item = $rootScope.initSearchValue
-      }
-      $rootScope.initSearchValueBool = false
       Products.searchProduct(`name=${$scope.item}`)
         .then(function(response) {
           $scope.results = response.data
@@ -110,10 +102,7 @@ angular.module('MyApp')
     }
 
     $scope.setInitSearchValue = function() {
-      $rootScope.initSearchValue = $scope.item
-      $rootScope.initSearchValueBool = true
-      // InputValue.setName($scope.item)
-
+      localStorageService.set('search',$scope.item)
     }
 
     $scope.goToProductsPage = function() {
