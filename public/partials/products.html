@@ -26,11 +26,11 @@
       <div class="row products">
 
             <div class="product col-sm-6 col-md-4" ng-repeat="item in results">
-                <!-- <div class="image">
+                <div class="image">
                     <a href="shop-detail.html">
-                        <img src="img/product3.jpg" alt="" class="img-responsive image1">
+                        <img ng-src="{{item.image}}" alt="" class="img-responsive image1">
                     </a>
-                </div> -->
+                </div>
                 <!-- /.image -->
                 <div class="text">
                     <h3><a ng-click="getProduct(item.id)">{{ item.name }}</a></h3>

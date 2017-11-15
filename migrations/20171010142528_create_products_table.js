@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
       table.float('weight');
       table.integer('quantity');
       table.integer('category_id').unsigned().index().references('id').inTable('categories')
-
+      table.string('image')
     })
   ]);
 };
