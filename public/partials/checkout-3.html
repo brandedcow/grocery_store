@@ -25,7 +25,6 @@
                                   <input class="form-control" ng-model="cvc" placeholder="CVC" payments-format='cvc' payments-validate="cvc"/>
                               </div>
                           </div>
-
                       </div>
                       <!-- /.row -->
 
@@ -34,10 +33,13 @@
 
                   <div class="box-footer">
                       <div class="pull-left">
-                          <a href="checkout-delivery" class="btn btn-default">Back to Shipping method</a>
+                          <a href="cart" class="btn btn-default">Back to Cart</a>
                       </div>
-                      <div class="pull-right">
+                      <div ng-if="!paid" class="pull-right">
                           <button type="submit" class="btn btn-default">Continue to Order review</button>
+                      </div>
+                      <div ng-if="paid" class="pull-right">
+                        <a ng-click="toReview()" class="btn btn-default">Already Charged, Continue to Review</a>
                       </div>
                   </div>
           </div>

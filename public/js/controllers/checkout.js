@@ -2,12 +2,6 @@ angular.module('MyApp')
   .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Account, Cart, Checkout, Maps) {
     $scope.init = function() {
       $scope.getInfo()
-      // $scope.checkout = {
-      //   cartInfo: $scope.cartInfo,
-      //   address: $scope.address,
-      //   delivery: $scope.delivery,
-      //   payment: $scope.payment
-      // }
       $scope.getAddresses()
       $scope.selectedExisting = false;
     }
@@ -26,9 +20,17 @@ angular.module('MyApp')
 
     $scope.getInfo = function() {
       $scope.cartInfo = localStorageService.get('cartInfo')
+      if ($scope.cartInfo.totalWeight > 15) {
+        $scope.overWeight = true
+      }
+      if ($scope.cartInfo.totalWeight > 30) {
+        $scope.superOverWeight = true
+      }
       $scope.address = localStorageService.get('address')
       $scope.delivery = localStorageService.get('delivery')
-      $scope.payment = localStorageService.get('payment')
+      if (localStorageService.get('chargeData') != null) {
+        $scope.paid = true
+      }
     }
 
     $scope.toDelivery = function() {
@@ -37,23 +39,33 @@ angular.module('MyApp')
 
     $scope.toPayment = function() {
       localStorageService.set('delivery',$scope.delivery)
+      if ($scope.superOverWeight) {
+        window.alert('Cart too heavy, exceeds allowable weight of 30lbs.')
+        return
+      }
+      if ($scope.overWeight && $scope.delivery != 'doubledrone') {
+        window.alert('Cart too heavy, use two drones')
+        return
+      }
       $location.path('checkout-payment')
     }
 
     $scope.toReview = function() {
-      $location.path('checkout-payment')
+      $location.path('checkout-review')
     }
 
     $scope.selectExistingAddress = function(row) {
       $scope.selectedExisting = true;
       $scope.address = row.address
-      localStorageService.set('address',row.id)
+      localStorageService.set('address', address.description)
+      localStorageService.set('addressID',row.id)
       $scope.prediction = ""
     }
 
     $scope.selectAddress = function (address) {
       $scope.selectedExisting = false;
       $scope.address = address.description
+      localStorageService.set('address', address.description)
       localStorageService.set('addressID',address.place_id)
       $scope.predictions = ""
     }
@@ -81,7 +93,6 @@ angular.module('MyApp')
           addressID: localStorageService.get('addressID')
         })
           .then(function(response) {
-            localStorageService.set('address',response.data.addressID)
             window.alert('Valid Address')
             $location.path('checkout-delivery')
           })
@@ -114,6 +125,10 @@ angular.module('MyApp')
       var data = localStorageService.get('chargeData')
       Cart.placeOrder(data)
         .then(function(response) {
+          localStorageService.remove('address')
+          localStorageService.remove('delivery')
+          localStorageService.remove('chargeData')
+          localStorageService.remove('cartInfo')
           $location.path('my-orders')
         })
         .catch(function(response) {

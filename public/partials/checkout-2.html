@@ -1,8 +1,6 @@
 <div class="container-fluid" ng-init="init()">
     <div class="row">
-
         <div class="col-md-9 clearfix" id="checkout">
-
             <div class="box">
                 <form method="post" action="shop-checkout3.html">
                     <ul class="nav nav-pills nav-justified">
@@ -18,6 +16,7 @@
 
                     <div class="content">
                         <div class="row">
+                          <form>
                             <div class="col-sm-6">
                                 <div class="box">
 
@@ -26,20 +25,32 @@
                                     <p>Get it today - only option possible.</p>
 
                                     <div class="box-footer text-center">
-                                        <input type="radio" name="delivery" value="drone" ng-model="delivery">
+                                        <input type="radio" value="drone" ng-model="delivery">
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="box">
+
+                                  <h4>Double Drone Delivery</h4>
+
+                                  <p>Get it today - Your cart weight is over the capacity of one drone.</p>
+
+                                  <div class="box-footer text-center">
+                                      <input type="radio" value="doubledrone" ng-model="delivery">
+                                  </div>
+                              </div>
+                            </div>
+                          </form>
                         </div>
                         <!-- /.row -->
-
                     </div>
                     <!-- /.content -->
 
                     <div class="box-footer">
                         <div class="pull-left">
-                            <a href="checkout-address" class="btn btn-default">Back to Addresses</a>
+                            <a href="cart" class="btn btn-default">Back to Cart</a>
                         </div>
                         <div class="pull-right">
                             <a ng-click="toPayment()" class="btn btn-default">Continue to Payment Method</a>
