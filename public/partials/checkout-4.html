@@ -39,9 +39,9 @@
                                     <td><a href="#">{{ item.name }}</a>
                                     </td>
                                     <td>{{ item.quantity }}</td>
-                                    <td>${{ item.price }}</td>
+                                    <td>{{ item.price | currency }}</td>
                                     <td>{{ item.weight }}</td>
-                                    <td>${{ item.price * item.quantity }}</td>
+                                    <td>{{ item.price * item.quantity | currency }}</td>
                                 </tr>
                               </tbody>
                               <tfoot>
@@ -86,7 +86,7 @@
                   <tbody>
                       <tr>
                           <td>Order subtotal</td>
-                          <th>${{ cartInfo.total }}</th>
+                          <th>{{ cartInfo.total | currency }}</th>
                       </tr>
                       <tr>
                           <td>Shipping and handling</td>
@@ -98,7 +98,7 @@
                       </tr>
                       <tr class="total">
                           <td>Total</td>
-                          <th>${{ cartInfo.total }}</th>
+                          <th>{{ cartInfo.total | currency }}</th>
                       </tr>
                   </tbody>
               </table>
