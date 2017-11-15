@@ -13,6 +13,7 @@ angular.module('MyApp')
       $scope.getProducts()
       $scope.item = localStorageService.get('search')
       $scope.searchProduct()
+      localStorageService.set('search', ' ')
     }
 
     $scope.getCategories = function() {
