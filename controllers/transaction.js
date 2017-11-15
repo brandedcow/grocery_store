@@ -152,7 +152,34 @@ exports.orderDelete = function (req, res, next) {
   })
 }
 
+/**
+ * GET /find-order/:id
+ * get order info based on order_id
+ */
+exports.idOrderGet = function(req, res, next) {
 
+  bookshelf.knex
+    .select('products.id', 'products.name', 'purchases.quantity', 'products.price', 'products.weight', 'purchases.order_id', 'products.image')
+    .from('products')
+    .innerJoin('purchases', 'products.id', 'purchases.product_id')
+    .where('purchases.order_id', req.params.id)
+    .then(function(response) {
+      var info = {
+        orderNum: null,
+        itemCount: 0,
+        items: response,
+        totalWeight: 0,
+        total: 0
+      }
+      info.items.forEach(function(item) {
+        info.orderNum = item.order_id
+        info.itemCount += item.quantity
+        info.totalWeight += (item.weight * item.quantity)
+        info.total += (item.price * item.quantity)
+      })
+      res.status(200).send(info)
+    })
+}
 /**
  * GET /current-order/:id
  * get order info based on customer_id
@@ -168,7 +195,7 @@ exports.currentOrderGet = function(req, res, next) {
     })
 
   bookshelf.knex
-    .select('products.id', 'products.name', 'purchases.quantity', 'products.price', 'products.weight', 'purchases.order_id')
+    .select('products.id', 'products.name', 'purchases.quantity', 'products.price', 'products.weight', 'purchases.order_id', 'products.image')
     .from('products')
     .innerJoin('purchases', 'products.id', 'purchases.product_id')
     .where('purchases.order_id', subquery)
@@ -188,8 +215,7 @@ exports.currentOrderGet = function(req, res, next) {
       })
       res.status(200).send(info)
     })
-
-};
+}
 /**
  * GET /order/:id
  */

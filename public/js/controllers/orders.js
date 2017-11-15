@@ -2,6 +2,7 @@ angular.module('MyApp')
   .controller('MyOrdersCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Cart, Products, Checkout, Account) {
     $scope.init = function() {
       $scope.getInfo()
+      $scope.orderInfo = localStorageService.get('orderInfo')
     }
 
     $scope.getInfo = function() {
@@ -21,4 +22,17 @@ angular.module('MyApp')
       $location.path('/track-order')
     }
 
+    $scope.orderDetails = function(data) {
+      Cart.getOrder(data.id)
+        .then(function(response) {
+          window.alert(data.id)
+          localStorageService.set('orderInfo', response.data)
+          $location.path('/order-detail')
+        })
+        .catch(function(response) {
+          $scope.messages = {
+            error: Array.isArray(response.data) ? response.data : [response.data]
+          };
+        })
+    }
   });

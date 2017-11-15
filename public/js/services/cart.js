@@ -13,6 +13,9 @@ angular.module('MyApp')
       getOrders: function(id) {
         return $http.get(`/order/${id}`)
       },
+      getOrder: function(id) {
+        return $http.get(`/find-order/${id}`)
+      },
       placeOrder: function(data) {
         return $http.post('/order/', data)
       }

@@ -79,6 +79,7 @@ app.get('/unlink/:provider', userController.ensureAuthenticated, userController.
 app.post('/purchase', userController.ensureAuthenticated, transactionController.ensureOrderExists, transactionController.purchasePost)
 app.post('/checkout', userController.ensureAuthenticated, transactionController.checkoutPost)
 app.get('/current-order/:id', userController.ensureAuthenticated, transactionController.currentOrderGet)
+app.get('/find-order/:id', userController.ensureAuthenticated, transactionController.idOrderGet)
 app.get('/order/:id',userController.ensureAuthenticated, transactionController.orderGet)
 app.put('/order', userController.ensureAuthenticated, transactionController.orderPut)
 app.post('/order', userController.ensureAuthenticated, transactionController.orderPost)

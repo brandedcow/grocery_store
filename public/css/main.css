@@ -356,3 +356,8 @@ textarea {
  #empty-space {
    height: 63px;
  }
+
+ .table-responsive{
+  overflow-y:visible;
+  overflow-x:visible;
+  }

@@ -40,6 +40,10 @@ angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule', 'angular
         templateUrl: 'partials/my-orders.html',
         controller: 'MyOrdersCtrl'
       })
+      .when('/order-detail', {
+        templateUrl: 'partials/order-detail.html',
+        controller: 'MyOrdersCtrl'
+      })
       .when('/contact', {
         templateUrl: 'partials/contact.html',
         controller: 'ContactCtrl'
