@@ -1,12 +1,15 @@
+function initMap() {}
 angular.module('MyApp')
   .controller('TrackOrderCtrl', function($scope, $rootScope, $location, $window, $auth, Products, Session, localStorageService) {
     $scope.var = $rootScope.currentUser;
     $scope.googleMapRequest = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAd3Q644s4HHXat5mvN8xKlyT7pi1A3eYY&callback=initMap"
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
 
+
+
     $scope.address = localStorageService.get('trackingInfo').address
     // JavaScript source code
-    function initMap() {
+    initMap = function() {
 //		window.alert("Page popped up");
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -168,7 +171,11 @@ function calculateAndDisplayRoute(map, directionsService, directionsDisplay, dis
 }
 
 
+$.getScript($scope.googleMapRequest, function() {
 
+// alert("Script loaded but not necessarily executed.");
+
+});
 
 
   });
