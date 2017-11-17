@@ -6,8 +6,8 @@ angular.module('MyApp')
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
 
 
-    //console.log(localStorageService.get('trackingInfo'))
-    $scope.address = localStorageService.get('trackingInfo')//"39831 San Moreno Ct Fremont CA" //localStorageService.get('trackingInfo').address
+    console.log(localStorageService.get('trackingInfo').address)
+    $scope.address = localStorageService.get('trackingInfo').address//"39831 San Moreno Ct Fremont CA" //localStorageService.get('trackingInfo').address
     // JavaScript source code
     initMap = function() {
 //		window.alert("Page popped up");
