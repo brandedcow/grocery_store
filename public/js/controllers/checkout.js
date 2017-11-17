@@ -1,6 +1,7 @@
 angular.module('MyApp')
   .controller('CheckoutCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Account, Cart, Checkout, Maps) {
     $scope.init = function() {
+      $scope.paid = false
       $scope.getInfo()
       $scope.getAddresses()
       $scope.selectedExisting = false;
@@ -28,7 +29,7 @@ angular.module('MyApp')
       }
       $scope.address = localStorageService.get('address')
       $scope.delivery = localStorageService.get('delivery')
-      if (localStorageService.get('chargeData') != null) {
+      if (localStorageService.get('chargeData') != undefined) {
         $scope.paid = true
       }
     }
@@ -57,7 +58,7 @@ angular.module('MyApp')
     $scope.selectExistingAddress = function(row) {
       $scope.selectedExisting = true;
       $scope.address = row.address
-      localStorageService.set('address', address.description)
+      localStorageService.set('address', row.address)
       localStorageService.set('addressID',row.id)
       $scope.prediction = ""
     }
@@ -93,6 +94,7 @@ angular.module('MyApp')
           addressID: localStorageService.get('addressID')
         })
           .then(function(response) {
+            localStorageService.set('addressID',response.data.addressID)
             window.alert('Valid Address')
             $location.path('checkout-delivery')
           })
@@ -113,7 +115,7 @@ angular.module('MyApp')
           var data = {
             customer_id:$rootScope.currentUser.id,
             token: result.id,
-            address: localStorageService.get('address'),
+            address: localStorageService.get('addressID'),
             amount: localStorageService.get('cartInfo').total
           }
           localStorageService.set('chargeData', data)
