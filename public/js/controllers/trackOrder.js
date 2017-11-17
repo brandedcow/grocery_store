@@ -6,8 +6,8 @@ angular.module('MyApp')
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
 
 
-
-    $scope.address = localStorageService.get('trackingInfo').address
+    //console.log(localStorageService.get('trackingInfo'))
+    $scope.address = localStorageService.get('trackingInfo')//"39831 San Moreno Ct Fremont CA" //localStorageService.get('trackingInfo').address
     // JavaScript source code
     initMap = function() {
 //		window.alert("Page popped up");
@@ -106,33 +106,23 @@ angular.module('MyApp')
         ]
     });
     directionsDisplay.setMap(map);
-
+    calculateAndDisplayRoute(map,directionsService, directionsDisplay, distCalcService, geocoder, bounds);
     var onChangeHandler = function () {
-        calculateAndDisplayRoute(map,directionsService, directionsDisplay, distCalcService, geocoder, bounds);
+
     };
-    document.getElementById('end').addEventListener('change', onChangeHandler);
+    // document.getElementById('end').addEventListener('change', onChangeHandler);
 }
 
 function calculateAndDisplayRoute(map, directionsService, directionsDisplay, distCalcService, geocoder, bounds) {
 
     var textResult = '';
     var storeOne = { lat: 37.554260, lng: -122.308524 };
-    var storeTwo = { lat: 37.350531, lng: -121.922172 }
-    directionsService.route({
-        origin: storeOne,
-        destination: $scope.address,
-        travelMode: 'DRIVING'
-    }, function (response, status) {
-        if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-        } else {
-            window.alert('Directions request failed due to ' + status);
-        }
-    });
-
+    var storeTwo = { lat: 37.350531, lng: -121.922172 };
+    var original;
+    var destinational;
     distCalcService.getDistanceMatrix({
-        origins: [storeOne],
-        destinations: [$scope.address],
+        origins: [storeOne, storeTwo],
+        destinations: [$scope.address, $scope.address],
         travelMode: 'DRIVING',
         unitSystem: google.maps.UnitSystem.METRIC,
         avoidHighways: false,
@@ -154,20 +144,66 @@ function calculateAndDisplayRoute(map, directionsService, directionsDisplay, dis
                 };
             };
 
+            var distSM = response.rows[0].elements[0].distance.value;
+            var distSJ = response.rows[1].elements[0].distance.value;
+
             for (var i = 0; i < originList.length; i++) {
                 var results = response.rows[i].elements;
-                geocoder.geocode({ 'address': originList[i] },
-                    showGeocodedAddressOnMap(false));
-                for (var j = 0; j < results.length; j++) {
-                    geocoder.geocode({ 'address': destinationList[j] },
-                        showGeocodedAddressOnMap(true));
-                    textResult += originList[0] + ' to ' + destinationList[0] + ': ' + results[0].distance.text + ' in ' + results[0].duration.text;
-                    alert(textResult);
-                }
+                //geocoder.geocode({ 'address': originList[i]},showGeocodedAddressOnMap(false));
+
+                //    geocoder.geocode({ 'address': destinationList[0]},showGeocodedAddressOnMap(true));
+                    textResult = originList[i] + ' to ' + destinationList[i] + ': ' + results[i].distance.text + ' in ' + results[i].duration.text + ' i = ' + i;
+
+                    // alert(textResult);
+                    // alert(results[0].distance.value);
+
             }
+
+            if (distSM > distSJ)
+            {
+                original = originList[1];
+                destinational = destinationList[1];
+
+                // alert('0 = '+ results[0].distance.value+ '    1 = ' + results[1].distance.value);
+                directionsService.route({
+                    origin: original,
+                    destination: destinational,
+                    travelMode: 'DRIVING'
+                }, function (response, status) {
+
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            }
+            else
+            {
+                original = originList[0];
+                destinational = destinationList[0];
+                // alert('0 = ' + results[0].distance.value + '    1 = ' + results[1].distance.value);
+
+                directionsService.route({
+                    origin: original,
+                    destination: destinational,
+                    travelMode: 'DRIVING'
+                }, function (response, status) {
+
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            }
+
+
 
         }
     });
+
+
 }
 
 
