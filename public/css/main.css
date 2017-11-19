@@ -369,8 +369,9 @@ textarea {
   }
 
   .image {
-    width: 100%;
-    padding-top: 100%;
+    width: 300px;
+    height: 300px;
+    padding-top: 50%;
     position: relative;
   }
 
@@ -381,3 +382,16 @@ textarea {
     bottom: 0;
     right: 0;
   }
+
+#productDetailPictureSpace {
+  max-width:300px;
+}
+
+  #insideProductDetailImage {
+    max-height: 300px;
+  }
+
+.imageDisplaySize {
+  max-height:230px;
+  width:auto;
+}
