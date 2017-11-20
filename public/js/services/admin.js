@@ -10,5 +10,8 @@ angular.module('MyApp')
       getAddresses: function() {
         return $http.get('/admin/addresses')
       },
+      putProducts: function(data) {
+        return $http.put('/admin/products', data)
+      }
     }
   })

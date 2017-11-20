@@ -69,13 +69,22 @@ exports.purchasePost = function(req, res, next) {
     })
 
     newPurchase.then(function(purchase) {
+      bookshelf.knex.raw(
+        `select quantity from products where id=${req.body.product_id}`
+      ).asCallback(function(err, rows) {
+        return res.send(rows[0][0])
+        if (err) {return res.status(400).send(err)}
+        if ((rows[0][0].quantity - req.body.quantity) < 0) {
+          return res.status(400).send({error: 'Out of Stock'})
+        }
+      })
+
       if (purchase === null) {
         new Purchase({
           order_id: orderID,
           product_id: req.body.product_id,
           quantity: req.body.quantity
         }).save()
-        res.status(200).send({ message: 'insert success'})
       } else {
         new Purchase({id: purchase.get('id')})
           .save({quantity: req.body.quantity + purchase.get('quantity')}, {patch: true})
@@ -221,7 +230,8 @@ exports.currentOrderGet = function(req, res, next) {
  */
  exports.orderGet = function(req, res, next) {
       bookshelf.knex.raw(
-        `select orders.id, orders.order_date, orders.order_status,
+        `select orders.id, orders.order_date,
+        (select name from order_status_types where id = orders.order_status) as order_status,
         (select sum(purchases.quantity * products.price) as total from products inner join purchases on products.id = purchases.product_id where purchases.order_id = orders.id) as total,
         (select (select concat(street_line, ', ', city, ', ' , state , ', ' , zip , ', ' , country) as address from addresses where id=address_id) from deliveries where order_id =orders.id) as address
         from orders where customer_id = ${req.params.id};`
@@ -239,7 +249,6 @@ exports.currentOrderGet = function(req, res, next) {
  */
 exports.orderPut = function(req, res, next) {
   req.body.items.forEach(function(item){
-
     new Purchase({
       order_id: req.body.orderNum,
       product_id: item.id
