@@ -6,6 +6,19 @@ angular.module('MyApp')
       $scope.getAddresses()
     }
 
+    $scope.putUsers = function () {
+      var data = {
+        users: $scope.accounts
+      }
+      Admin.putUsers(data)
+        .then(function(response) {
+
+        })
+        .catch(function(response) {
+          $scope.messages = response.data
+        })
+    }
+
     $scope.putProducts = function() {
       var data = {
         products: $scope.products

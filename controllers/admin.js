@@ -46,11 +46,26 @@ exports.productPut = function(req,res) {
       `update products set name="${product.name}", price=${product.price}, description="${product.description}", weight=${product.weight}, quantity=${product.quantity}, category_id=${product.category_id} where id=${product.id}`
     ).then(function(response) {
       if (!response) {
-        res.status(400).send({error: "not updated"})
-      } else {
-        res.status(200).send(response)
+        return res.status(400).send({error: "not updated"})
       }
+    }).catch(function(err) {
+      return res.status(400).send(err)
     })
-
   })
+  res.status(200).send({ message: "done"})
+}
+
+exports.userPut = function(req, res) {
+  req.body.users.forEach(function(user) {
+    bookshelf.knex.raw(
+      `update customers set name="${user.name}", email="${user.email}", admin=${user.admin} where id=${user.id}`
+    ).then(function(response) {
+      if (!response) {
+        res.status(400).send({error: "not updated"})
+      }
+    }).catch(function(err) {
+      return res.status(400).send(err)
+    })
+  })
+  res.status(200).send({ message: "done"})
 }

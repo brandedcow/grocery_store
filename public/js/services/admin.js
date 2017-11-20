@@ -12,6 +12,9 @@ angular.module('MyApp')
       },
       putProducts: function(data) {
         return $http.put('/admin/products', data)
+      },
+      putUsers: function(data) {
+        return $http.put('/admin/users', data)
       }
     }
   })

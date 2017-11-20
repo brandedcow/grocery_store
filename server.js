@@ -92,6 +92,7 @@ app.get('/admin/products', adminController.productGet)
 app.get('/admin/accounts', adminController.accountGet)
 app.get('/admin/addresses', adminController.addressGet)
 app.put('/admin/products', adminController.productPut)
+app.put('/admin/users', adminController.userPut)
 app.get('/category/:id', productController.productCategoryGet)
 
 app.get('*', function(req, res) {

@@ -28,7 +28,7 @@
   </div>
 
   <div class="text-center">
-    <a class="btn btn-default" ng-click="putProducts(products)">Update</a>
+    <a class="btn btn-default" ng-click="putProducts">Update</a>
   </div>
 
   <div name="accounts" class="col-md-12 table-responsive">
@@ -46,13 +46,17 @@
       <tbody>
         <tr ng-repeat="account in accounts">
           <td>{{ account.id }}</td>
-          <td>{{ account.name }}</td>
-          <td>{{ account.email }}</td>
+          <td><input class="form-control" ng-model="account.name"></input></td>
+          <td><input class="form-control" ng-model="account.email"></input></td>
           <td>{{ account.created_at }}</td>
-          <td>{{ account.admin }}</td>
+          <td><input class="form-control" ng-model="account.admin"></input></td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="text-center">
+    <a class="btn btn-default" ng-click="putUsers()">Update</a>
   </div>
 
   <div name="addresses" class="col-md-12 table-responsive">
