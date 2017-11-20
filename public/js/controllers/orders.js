@@ -25,7 +25,6 @@ angular.module('MyApp')
     $scope.orderDetails = function(data) {
       Cart.getOrder(data.id)
         .then(function(response) {
-          window.alert(data.id)
           localStorageService.set('orderInfo', response.data)
           $location.path('/order-detail')
         })
