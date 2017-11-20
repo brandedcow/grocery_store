@@ -1,10 +1,4 @@
 <div class="container-fluid" ng-init="init()">
-  <!-- <ul style="list-style:none;">
-    <li><a href="#products">Products</a></li>
-    <li><a href="#accounts">Accounts</a></li>
-    <li><a href="#addresses">Addresses</a></li>
-  </ul> -->
-
   <div name="products" class="col-md-12 table-responsive">
     <legend>Products</legend>
     <table class="table">
@@ -22,15 +16,19 @@
       <tbody>
         <tr ng-repeat="product in products">
           <td>{{ product.id }}</td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.price }}</td>
-          <td>{{ product.description }}</td>
-          <td>{{ product.weight }}</td>
-          <td>{{ product.quantity }}</td>
-          <td>{{ product.category_id }}</td>
+          <td><input class="form-control" ng-model="product.name"></input></td>
+          <td><input class="form-control" ng-model="product.price"></input></td>
+          <td><input class="form-control" ng-model="product.description"></input></td>
+          <td><input class="form-control" ng-model="product.weight"></input></td>
+          <td><input class="form-control" ng-model="product.quantity"></input></td>
+          <td><input class="form-control" ng-model="product.category_id"></input></td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="text-center">
+    <a class="btn btn-default" ng-click="putProducts(products)">Update</a>
   </div>
 
   <div name="accounts" class="col-md-12 table-responsive">

@@ -13,7 +13,7 @@ angular.module('MyApp')
       $scope.getProducts()
       $scope.item = localStorageService.get('search')
       $scope.searchProduct()
-      localStorageService.set('search', ' ')
+      localStorageService.set('search', '')
     }
 
     $scope.getCategories = function() {
@@ -31,7 +31,7 @@ angular.module('MyApp')
     $scope.getByCategory = function (id) {
       Products.getByCategory(id)
         .then(function(response) {
-          $scope.products = response.data
+          $scope.results = response.data
         })
         .catch(function(response) {
           $scope.messages = {

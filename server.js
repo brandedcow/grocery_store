@@ -68,7 +68,6 @@ app.use(function(req, res, next) {
   }
 });
 
-app.post('/contact', contactController.contactPost);
 app.put('/account', userController.ensureAuthenticated, userController.accountPut);
 app.delete('/account', userController.ensureAuthenticated, userController.accountDelete);
 app.post('/signup', userController.signupPost);
@@ -76,7 +75,7 @@ app.post('/login', userController.loginPost);
 app.post('/forgot', userController.forgotPost);
 app.post('/reset/:token', userController.resetPost);
 app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);
-app.post('/purchase', userController.ensureAuthenticated, transactionController.ensureOrderExists, transactionController.purchasePost)
+app.post('/purchase',userController.ensureAuthenticated,transactionController.ensureOrderExists, transactionController.purchasePost)
 app.post('/checkout', userController.ensureAuthenticated, transactionController.checkoutPost)
 app.get('/current-order/:id', userController.ensureAuthenticated, transactionController.currentOrderGet)
 app.get('/find-order/:id', userController.ensureAuthenticated, transactionController.idOrderGet)
@@ -85,13 +84,14 @@ app.put('/order', userController.ensureAuthenticated, transactionController.orde
 app.post('/order', userController.ensureAuthenticated, transactionController.orderPost)
 app.post('/order/:id', userController.ensureAuthenticated, transactionController.orderDelete)
 app.get('/address', mapsController.getAutoComplete)
-app.get('/address/:id', mapsController.getAddress)
-app.post('/address', mapsController.addressPost)
-app.delete('/address/:id', mapsController.addressDelete)
+app.get('/address/:id', userController.ensureAuthenticated, mapsController.getAddress)
+app.post('/address', userController.ensureAuthenticated, mapsController.addressPost)
+app.delete('/address/:id', userController.ensureAuthenticated, mapsController.addressDelete)
 app.get('/search/', productController.productGet)
 app.get('/admin/products', adminController.productGet)
 app.get('/admin/accounts', adminController.accountGet)
 app.get('/admin/addresses', adminController.addressGet)
+app.put('/admin/products', adminController.productPut)
 app.get('/category/:id', productController.productCategoryGet)
 
 app.get('*', function(req, res) {
