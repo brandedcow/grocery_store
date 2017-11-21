@@ -414,3 +414,19 @@ textarea {
   max-height:230px;
   width:auto;
 }
+
+/*.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row.display-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}*/
+
+h4.productTitle{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-bottom: 2px;
+}
