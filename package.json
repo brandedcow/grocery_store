@@ -10,6 +10,8 @@
     "test:client": "karma start --single-run",
     "test:server": "mocha --recursive"
   },
+  "author": "Christopher Kang",
+  "license": "ISC",
   "dependencies": {
     "@google/maps": "^0.4.5",
     "angular-local-storage": "^0.7.1",

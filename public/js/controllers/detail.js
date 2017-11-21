@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('DetailCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Session, Products) {
+  .controller('DetailCtrl', function($scope, $rootScope, $location, $window, $auth, localStorageService, Products) {
     $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();
     };

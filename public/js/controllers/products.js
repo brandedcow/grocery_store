@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ProductsCtrl', function($scope, $rootScope, $location, $window, $auth,localStorageService, Products, Session) {
+  .controller('ProductsCtrl', function($scope, $rootScope, $location, $window, $auth,localStorageService, Products) {
     $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();
     };
@@ -57,9 +57,7 @@ angular.module('MyApp')
     $scope.getProduct = function(itemID) {
       Products.getProduct(itemID)
       .then(function(response) {
-        Session.reset()
         localStorageService.set('selectedProduct', response.data)
-        // Session.setProduct(response.data)
       })
       .then(function() {
         $location.path("product-detail")

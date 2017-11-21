@@ -1,6 +1,6 @@
 function initMap() {}
 angular.module('MyApp')
-  .controller('TrackOrderCtrl', function($scope, $rootScope, $location, $window, $auth, Products, Session, localStorageService) {
+  .controller('TrackOrderCtrl', function($scope, $rootScope, $location, $window, $auth, Products, localStorageService) {
     $scope.var = $rootScope.currentUser;
     $scope.googleMapRequest = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAd3Q644s4HHXat5mvN8xKlyT7pi1A3eYY&callback=initMap"
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";

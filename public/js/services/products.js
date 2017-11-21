@@ -22,18 +22,3 @@ angular.module('MyApp')
       }
     };
   })
-  .service('Session', function () {
-    var service = {
-      selectedProduct: null
-    }
-    service.reset = function () {
-      this.selectedProduct = null
-    }
-    service.getProduct = function () {
-      return this.selectedProduct
-    }
-    service.setProduct = function (data) {
-      this.selectedProduct = data
-    }
-    return service
-  });
