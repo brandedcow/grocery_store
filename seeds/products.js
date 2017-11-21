@@ -131,7 +131,7 @@ exports.seed = function(knex, Promise) {
                       "weight": 1.00,
                       "quantity": 8364,
                       "category_id": 1,
-                      "image": "/pics/products/baby_spinach.jpg."
+                      "image": "/pics/products/baby_spinach.jpg"
                     },
                     {
                       "name": "Organicgirl Romaine Heart Leaves",
