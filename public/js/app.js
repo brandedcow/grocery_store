@@ -44,10 +44,6 @@ angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule', 'angular
         templateUrl: 'partials/order-detail.html',
         controller: 'MyOrdersCtrl'
       })
-      .when('/contact', {
-        templateUrl: 'partials/contact.html',
-        controller: 'ContactCtrl'
-      })
       .when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginCtrl',
@@ -66,11 +62,6 @@ angular.module('MyApp', ['ngRoute', 'satellizer', 'LocalStorageModule', 'angular
       .when('/forgot', {
         templateUrl: 'partials/forgot.html',
         controller: 'ForgotCtrl',
-        resolve: { skipIfAuthenticated: skipIfAuthenticated }
-      })
-      .when('/reset/:token', {
-        templateUrl: 'partials/reset.html',
-        controller: 'ResetCtrl',
         resolve: { skipIfAuthenticated: skipIfAuthenticated }
       })
       .when('/track-order', {

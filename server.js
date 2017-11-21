@@ -22,7 +22,6 @@ var Category = require('./models/Category');
 
 // Controllers
 var userController = require('./controllers/user');
-var contactController = require('./controllers/contact');
 var transactionController = require('./controllers/transaction')
 var productController = require('./controllers/product')
 var mapsController = require('./controllers/maps')
