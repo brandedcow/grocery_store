@@ -81,7 +81,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Plum",
-                      "price": 13.99,
+                      "price": 1.05,
                       "description": "Sweet, tender and very juicy",
                       "weight": 1.00,
                       "quantity": 175,
@@ -152,6 +152,42 @@ exports.seed = function(knex, Promise) {
                       "image": "/pics/products/hearts_of_romaine.jpg"
                     },
                     {
+                      "name": "Tri-Tip",
+                      "price": 16.92,
+                      "description": "Tri-tip from cows of the Alhambra Valley Pears & Beef farm in Martinez, CA.",
+                      "weight": 2.0,
+                      "quantity": 1020,
+                      "category_id": 4,
+                      "image": "/pics/products/tri-tip.jpg"
+                    },
+                    {
+                      "name": "Filet Mignon",
+                      "price": 20.43,
+                      "description": "Filet Mignon from cows of the Alhambra Valley Pears & Beef farm in Martinez, CA.",
+                      "weight": 0.5,
+                      "quantity": 1020,
+                      "category_id": 4,
+                      "image": "/pics/products/filet_mignon.jpg"
+                    },
+                    {
+                      "name": "Halibut Fillet",
+                      "price": 18.32,
+                      "description": "Off the coast of Califonia, caught fresh daily.",
+                      "weight": 0.7,
+                      "quantity": 400,
+                      "category_id": 4,
+                      "image": "/pics/products/halibut_fillet.jpg"
+                    },
+                    {
+                      "name": "Spahetti",
+                      "price": 7.22,
+                      "description": "Made from local pasta companies.",
+                      "weight": 0.5,
+                      "quantity": 5010,
+                      "category_id": 7,
+                      "image": "/pics/products/spaghetti.jpg"
+                    },
+                    {
                       "name": "Organicgirl Supergreens",
                       "price": 3.99,
                       "description": "A perfect blend of spring mix greens and baby spinach",
@@ -180,7 +216,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Healthworks Goji Berries Raw Organic",
-                      "price": 15.99,
+                      "price": 9.99,
                       "description": "Healthworks certified organic goji berries, soft and chewy",
                       "weight": 1.00,
                       "quantity": 134,
@@ -189,7 +225,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Navitas Organics Goji Berries",
-                      "price": 15.99,
+                      "price": 9.99,
                       "description": "Healthworks certified organic goji berries, soft and chewy",
                       "weight": 1.00,
                       "quantity": 3154,
@@ -207,7 +243,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Healthworks Maca Powder Raw Organic",
-                      "price": 22.99,
+                      "price": 8.99,
                       "description": "Healthworks USDA Certified Organic Maca Root Powder",
                       "weight": 1.00,
                       "quantity": 754,
@@ -252,7 +288,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Organic Chewy Banana Bites",
-                      "price": 11.99,
+                      "price": 7.99,
                       "description": "Organic Original Chewy Banana Bites",
                       "weight": 1.00,
                       "quantity": 125,
@@ -279,7 +315,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Organics California Prunes",
-                      "price": 31.99,
+                      "price": 8.99,
                       "description": "California grown organic prunes",
                       "weight": 1.00,
                       "quantity": 5825,
@@ -288,7 +324,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Organics Dried Figs",
-                      "price": 13.99,
+                      "price": 8.99,
                       "description": "100% Organic Jumbo Dried Figs",
                       "weight": 1.00,
                       "quantity": 725,
@@ -306,7 +342,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Navitas Organics Goldenberries",
-                      "price": 17.99,
+                      "price": 7.99,
                       "description": "Perfectly sweet and tart",
                       "weight": 1.00,
                       "quantity": 1005,
@@ -333,7 +369,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Organic Farms Sunflower Seeds",
-                      "price": 17.99,
+                      "price": 6.99,
                       "description": "Sunridge Farms Organic Raw Sunflower Seeds",
                       "weight": 1.00,
                       "quantity": 105,
@@ -342,7 +378,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Dried Organic Shiitake Mushrooms",
-                      "price": 11.99,
+                      "price": 9.99,
                       "description": "Organic Whole Shiitake Mushrooms",
                       "weight": 1.00,
                       "quantity": 2675,
@@ -351,7 +387,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Navitas Organics Cashew Nuts",
-                      "price": 19.99,
+                      "price": 8.99,
                       "description": "Nutritious and tasty snack",
                       "weight": 1.00,
                       "quantity": 775,
@@ -378,7 +414,7 @@ exports.seed = function(knex, Promise) {
                     },
                     {
                       "name": "Organic Traditions Goji Berries",
-                      "price": 23.99,
+                      "price": 9.08,
                       "description": "Nutrient dense; High antioxidants",
                       "weight": 1.00,
                       "quantity": 973,
