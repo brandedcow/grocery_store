@@ -40,7 +40,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="4">Total</th>
-                        <th>{{ cartInfo.totalWeight }}</th>
+                        <th>{{ cartInfo.totalWeight | number:2 }}</th>
                         <th colspan="2">{{ cartInfo.total | currency}}</th>
                     </tr>
                 </tfoot>

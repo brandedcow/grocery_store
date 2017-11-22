@@ -416,7 +416,6 @@ angular.module('MyApp')
             map.setCenter(polyline[index].getPath().getAt(0));
 
             poly2[index] = new google.maps.Polyline({path: [polyline[index].getPath().getAt(0)], strokeColor:"#FFFF00", strokeWeight:3});
-            alert()
             var startLocation = 1;
 //          var startLocation = startPoint();
             timerHandle[index] = setTimeout("animate("+index+","+startLocation+")",2000);  // Allow time for the initial map display
