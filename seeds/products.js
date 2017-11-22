@@ -80,6 +80,15 @@ exports.seed = function(knex, Promise) {
                       "image": "/pics/products/peach.png"
                     },
                     {
+                      "name": "Plum",
+                      "price": 13.99,
+                      "description": "Sweet, tender and very juicy",
+                      "weight": 1.00,
+                      "quantity": 175,
+                      "category_id": 1,
+                      "image": "/pics/products/plum.jpg"
+                    },
+                    {
                       "name": "Pear",
                       "price": 1.01,
                       "description": "Pears grown from Alhambra Valley Pears & Beef in Martinez, CA.",
@@ -112,7 +121,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Eggs from Clara's Egg Farm in Royal Oaks, CA.",
                       "weight": 1.32,
                       "quantity": 11227,
-                      "category_id": 5,
+                      "category_id": 3,
                       "image": "/pics/products/eggs.jpg"
                     },
                     {
@@ -130,7 +139,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Rich in antioxidants beta carotene, vitamins A and C",
                       "weight": 1.00,
                       "quantity": 8364,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/baby_spinach.jpg"
                     },
                     {
@@ -139,7 +148,7 @@ exports.seed = function(knex, Promise) {
                       "description": "The sweetest crunchiest inner heart leaves.",
                       "weight": 1.00,
                       "quantity": 1364,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/hearts_of_romaine.jpg"
                     },
                     {
@@ -148,7 +157,7 @@ exports.seed = function(knex, Promise) {
                       "description": "A perfect blend of spring mix greens and baby spinach",
                       "weight": 1.00,
                       "quantity": 5334,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/mixed_greens.jpg"
                     },
                     {
@@ -157,7 +166,7 @@ exports.seed = function(knex, Promise) {
                       "description": "The flavorful heart of the celery bunch",
                       "weight": 1.00,
                       "quantity": 6334,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/celery.jpg"
                     },
                     {
@@ -166,7 +175,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Stick Cut Carrots",
                       "weight": 1.00,
                       "quantity": 1134,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/carrots.jpg"
                     },
                     {
@@ -193,7 +202,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Garden fresh, delicious sweet pea flavor that adds a delicate and sophisticated flavor to salads",
                       "weight": 1.00,
                       "quantity": 554,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/sweet_pea.jpg"
                     },
                     {
@@ -202,7 +211,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Healthworks USDA Certified Organic Maca Root Powder",
                       "weight": 1.00,
                       "quantity": 754,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/maca.jpg"
                     },
                     {
@@ -211,7 +220,7 @@ exports.seed = function(knex, Promise) {
                       "description": "America's #1 tofu inspires consumers to make healthy change to their diets",
                       "weight": 1.00,
                       "quantity": 154,
-                      "category_id": 5,
+                      "category_id": 8,
                       "image": "/pics/products/tofu.jpg"
                     },
                     {
@@ -220,7 +229,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Organic Arugula",
                       "weight": 1.00,
                       "quantity": 5554,
-                      "category_id": 5,
+                      "category_id": 2,
                       "image": "/pics/products/arugula.jpg"
                     },
                     {
@@ -229,7 +238,7 @@ exports.seed = function(knex, Promise) {
                       "description": "High in Vitamins K, C, and A",
                       "weight": 1.00,
                       "quantity": 7133,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/baby_kale.jpg"
                     },
                     {
@@ -319,7 +328,7 @@ exports.seed = function(knex, Promise) {
                       "description": " Pinnacle of gourmet french salad greens, with a delicious sweet nutty flavor, graceful shape, vibrant green color",
                       "weight": 1.00,
                       "quantity": 1105,
-                      "category_id": 1,
+                      "category_id": 2,
                       "image": "/pics/products/mache_rosettes.png"
                     },
                     {
@@ -337,7 +346,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Organic Whole Shiitake Mushrooms",
                       "weight": 1.00,
                       "quantity": 2675,
-                      "category_id": 1,
+                      "category_id": 6,
                       "image": "/pics/products/shiitake.jpg"
                     },
                     {
@@ -355,17 +364,8 @@ exports.seed = function(knex, Promise) {
                       "description": "Portabellas add deep, robust notes to strong flavored sauces and stews including tomato, red wine or meat based dishes",
                       "weight": 1.00,
                       "quantity": 775,
-                      "category_id": 5,
+                      "category_id": 6,
                       "image": "/pics/products/dried_portobello.jpg"
-                    },
-                    {
-                      "name": "Organic Plums",
-                      "price": 13.99,
-                      "description": "Sweet, tender and very juicy",
-                      "weight": 1.00,
-                      "quantity": 175,
-                      "category_id": 1,
-                      "image": "/pics/products/plum.jpg"
                     },
                     {
                       "name": "Organic Deglet Nour Dates",
@@ -391,7 +391,7 @@ exports.seed = function(knex, Promise) {
                       "description": "No added sugar, no sulfites; no pesticides",
                       "weight": 1.00,
                       "quantity": 977,
-                      "category_id": 5,
+                      "category_id": 1,
                       "image": "/pics/products/dried_pineapple.jpg"
                     },
                     {
@@ -418,7 +418,7 @@ exports.seed = function(knex, Promise) {
                       "description": "Pure, cold-pressed, organic, non-GMO extra virgin coconut oil",
                       "weight": 1.00,
                       "quantity": 1241,
-                      "category_id": 5,
+                      "category_id": 8,
                       "image": "/pics/products/coconut_oil.jpg"
                     }
 

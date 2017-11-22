@@ -7,7 +7,21 @@ angular.module('MyApp')
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
 
 
-    console.log(localStorageService.get('trackingInfo').address)
+    // var isSameDay = function(){
+    //   var year = localStorageService.get('trackingInfo').order_date).substring(0, 4)
+    //   var month = localStorageService.get('trackingInfo').order_date).substring(5, 7)
+    //   var day = localStorageService.get('trackingInfo').order_date).substring(8, 10)
+    //   var hour = localStorageService.get('trackingInfo').order_date).substring(11, 13)
+    //   var minute = localStorageService.get('trackingInfo').order_date).substring(14, 16)
+    //   var second = localStorageService.get('trackingInfo').order_date).substring(17, 19)
+    //
+    // }
+
+    // $scope.currentTimeStamp = new Date();
+    // console.log($scope.currentTimeStamp)
+    //
+    //
+    // $scope.order_time = localStorageService.get('trackingInfo').order_date).substring()
     $scope.address = localStorageService.get('trackingInfo').address//"39831 San Moreno Ct Fremont CA" //localStorageService.get('trackingInfo').address
     // JavaScript source code
 
@@ -27,7 +41,7 @@ angular.module('MyApp')
     var timerHandle = [];
 
 
-    var speed = 0.000005, wait = 1;
+    var speed = 0.000005, wait = 0.2;
     var infowindow = null;
 
     var myPano;
@@ -332,8 +346,8 @@ angular.module('MyApp')
 
         var lastVertex = 1;
         var stepnum=0;
-        var step = 50; // 5; // metres
-        var tick = 100; // milliseconds
+        var step = 0.268223; // 5; // metres
+        var tick = 1; // milliseconds
         var eol= [];
     //----------------------------------------------------------------------
      function updatePoly(i,d) {
@@ -363,6 +377,7 @@ angular.module('MyApp')
        }
 
         var p = polyline[index].GetPointAtDistance(d);
+//       console.log(index);
 
         //map.panTo(p);
         marker[index].setPosition(p);
@@ -401,8 +416,10 @@ angular.module('MyApp')
             map.setCenter(polyline[index].getPath().getAt(0));
 
             poly2[index] = new google.maps.Polyline({path: [polyline[index].getPath().getAt(0)], strokeColor:"#FFFF00", strokeWeight:3});
-
-            timerHandle[index] = setTimeout("animate("+index+",50)",2000);  // Allow time for the initial map display
+            alert()
+            var startLocation = 1;
+//          var startLocation = startPoint();
+            timerHandle[index] = setTimeout("animate("+index+","+startLocation+")",2000);  // Allow time for the initial map display
     }
 
 

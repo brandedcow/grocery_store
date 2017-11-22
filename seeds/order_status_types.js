@@ -12,7 +12,7 @@ exports.seed = function(knex, Promise) {
       records.push(createRecord(knex,1,'Pending'))
       records.push(createRecord(knex,2,'Ordered'))
       records.push(createRecord(knex,3,'Processing'))
-      records.push(createRecord(knex,4,'Completed'))
+      records.push(createRecord(knex,4,'Delivered'))
       records.push(createRecord(knex,5,'Cancelled'))
       records.push(createRecord(knex,6,'Declined'))
       records.push(createRecord(knex,7,'Incomplete'))
