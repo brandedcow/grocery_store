@@ -6,19 +6,32 @@ angular.module('MyApp')
     $scope.googleMapRequest = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAd3Q644s4HHXat5mvN8xKlyT7pi1A3eYY&callback=initMap"
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
 
+    $scope.now = new Date();
+    $scope.currentTimeStamp = new Date($scope.now.getUTCFullYear(), $scope.now.getUTCMonth(), $scope.now.getUTCDate(),  $scope.now.getUTCHours(), $scope.now.getUTCMinutes(), $scope.now.getUTCSeconds());
+    var isSameDay = function(){
 
-    // var isSameDay = function(){
-    //   var year = localStorageService.get('trackingInfo').order_date).substring(0, 4)
-    //   var month = localStorageService.get('trackingInfo').order_date).substring(5, 7)
-    //   var day = localStorageService.get('trackingInfo').order_date).substring(8, 10)
-    //   var hour = localStorageService.get('trackingInfo').order_date).substring(11, 13)
-    //   var minute = localStorageService.get('trackingInfo').order_date).substring(14, 16)
-    //   var second = localStorageService.get('trackingInfo').order_date).substring(17, 19)
-    //
-    // }
+      var year = localStorageService.get('trackingInfo').order_date.substring(0, 4)
+      var month = localStorageService.get('trackingInfo').order_date.substring(5, 7)
+      var day = localStorageService.get('trackingInfo').order_date.substring(8, 10)
+      var hour = localStorageService.get('trackingInfo').order_date.substring(11, 13)
+      var minute = localStorageService.get('trackingInfo').order_date.substring(14, 16)
+      var second = localStorageService.get('trackingInfo').order_date.substring(17, 19)
+      $scope.orderDate = new Date(year, month-1, day-1, hour, minute, second, 0);
 
-    // $scope.currentTimeStamp = new Date();
-    // console.log($scope.currentTimeStamp)
+      var currentYear = $scope.currentTimeStamp.getFullYear()
+      // console.log(currentYear==year)
+      var currentMonth = $scope.currentTimeStamp.getMonth() + 1
+      var currentDay = $scope.currentTimeStamp.getDate()
+      var currentHour = $scope.currentTimeStamp.getHours() % 12
+      var currentMinute = $scope.currentTimeStamp.getMinutes()
+      var currentSecond = $scope.currentTimeStamp.getSeconds()
+
+      $scope.elapsedTime = $scope.now.getTime() - $scope.orderDate.getTime()
+      // alert($scope.elapsedTime)
+
+    };
+    isSameDay()
+
     //
     //
     // $scope.order_time = localStorageService.get('trackingInfo').order_date).substring()
