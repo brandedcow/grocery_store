@@ -5,34 +5,16 @@ angular.module('MyApp')
     $scope.var = $rootScope.currentUser;
     $scope.googleMapRequest = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAd3Q644s4HHXat5mvN8xKlyT7pi1A3eYY&callback=initMap"
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
-    var distanceTotal = 0;
-    $scope.now = new Date();
-    $scope.currentTimeStamp = new Date($scope.now.getUTCFullYear(), $scope.now.getUTCMonth(), $scope.now.getUTCDate(),  $scope.now.getUTCHours(), $scope.now.getUTCMinutes(), $scope.now.getUTCSeconds());
+    var distanceTotal, now, currentTimeStamp, orderDate, elapsedTime, distanceTotalInMiles, msToTravelDistance, ratioTripSoFar, startLocation;
     var isSameDay = function(){
-
-      $scope.orderDate = new Date(localStorageService.get('trackingInfo').order_date)
+      now = new Date();
+      currentTimeStamp = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+      orderDate = new Date(localStorageService.get('trackingInfo').order_date)
       // alert($scope.order)
 
-      // var year = localStorageService.get('trackingInfo').order_date.substring(0, 4)
-      // var month = localStorageService.get('trackingInfo').order_date.substring(5, 7)
-      // var day = localStorageService.get('trackingInfo').order_date.substring(8, 10)
-      // var hour = localStorageService.get('trackingInfo').order_date.substring(11, 13)
-      var minute = localStorageService.get('trackingInfo').order_date.substring(14, 16)
-      // var second = localStorageService.get('trackingInfo').order_date.substring(17, 19)
-      // $scope.orderDate = new Date(year, month-1, day-1, hour, minute, second, 0);
-
-      var currentYear = $scope.currentTimeStamp.getFullYear()
-      // console.log(currentYear==year)
-      var currentMonth = $scope.currentTimeStamp.getMonth() + 1
-      var currentDay = $scope.currentTimeStamp.getDate()
-      var currentHour = $scope.currentTimeStamp.getHours() % 12
-      var currentMinute = $scope.currentTimeStamp.getMinutes()
-      var currentSecond = $scope.currentTimeStamp.getSeconds()
-
-      $scope.elapsedTime = $scope.now.getTime() - $scope.orderDate.getTime()
+      elapsedTime = now.getTime() - orderDate.getTime() - 70000
 
     };
-    isSameDay()
 
     //
     //
@@ -386,21 +368,49 @@ angular.module('MyApp')
     //----------------------------------------------------------------------------
 
     animate = function(index,d) {
-       if (d>eol[index]) {
+        isSameDay()
+       if (d >= eol[index]) {
           marker[index].setPosition(endLocation[index].latlng);
-          document.getElementById("statusBar").innerHTML = "<b>Status: Done </b>";
-          document.getElementById("statusBar").style.backgroundColor = "blue";
+          document.getElementById("statusBar").innerHTML = "<b>Status:</b> <span> Delivered </span>";
+          document.getElementById("statusBar").style.backgroundColor = "#bbd";
           return;
        }
+
+
 
         var p = polyline[index].GetPointAtDistance(d);
 //       console.log(index);
 
+        distanceTotalInMiles = distanceTotal / 1609.34
+        msToTravelDistance = distanceTotalInMiles * 60000
+        ratioTripSoFar = elapsedTime / msToTravelDistance
+        if(ratioTripSoFar < 0){
+          startLocation = 0
+        }
+        else if(ratioTripSoFar >= 1){
+          startLocation = polyline[index].Distance()
+        }
+        else{
+          startLocation = ratioTripSoFar * polyline[index].Distance()
+        }
+
         //map.panTo(p);
         marker[index].setPosition(p);
         updatePoly(index,d);
-        timerHandle[index] = setTimeout("animate("+index+","+(d+step)+")", tick);
-       document.getElementById("TimePassed").innerHTML = "<b>Time Passed: </b>"+convertTime(timerHandle[1]*2);
+        if(d <= eol[index]){
+          if (d == 0){
+            document.getElementById("statusBar").innerHTML = "<b>Status:</b> <span> Preparing Your Order (this should take just under a minute) </span>";
+            document.getElementById("statusBar").style.backgroundColor = "lavender";
+          }
+          else{
+            document.getElementById("statusBar").innerHTML = "<b>Status:</b> <span> Currently in Route</span>"
+            document.getElementById("statusBar").style.backgroundColor = "#add"
+          }
+
+          timerHandle[index] = setTimeout("animate("+index+","+ startLocation +")", tick);
+        }
+
+      //  document.getElementById("TimePassed").innerHTML = "<b>Time Passed: </b>"+convertTime(timerHandle[1]*2);
     //    console.log(timerHandle[1]);
     }
 
@@ -428,22 +438,23 @@ angular.module('MyApp')
     //-------------------------------------------------------------------------
 
     function startAnimation(index) {
+            isSameDay()
             if (timerHandle[index]) clearTimeout(timerHandle[index]);
             eol[index]=polyline[index].Distance();
             map.setCenter(polyline[index].getPath().getAt(0));
             poly2[index] = new google.maps.Polyline({path: [polyline[index].getPath().getAt(0)], strokeColor:"#FFFF00", strokeWeight:3});
-            var distanceTotalInMiles = distanceTotal / 1609.34
-            var msToTravelDistance = distanceTotalInMiles * 60000
-            var ratioTripSoFar = $scope.elapsedTime / msToTravelDistance
-            var startLocation = 0
-            if(ratioTripSoFar >= 1){
+            distanceTotalInMiles = distanceTotal / 1609.34
+            msToTravelDistance = distanceTotalInMiles * 60000
+            ratioTripSoFar = elapsedTime / msToTravelDistance
+            startLocation = 0
+            if(ratioTripSoFar < 0){
+              startLocation = 0
+            }
+            else if(ratioTripSoFar >= 1){
               startLocation = polyline[index].Distance()
             }
-            else{
-              startLocation = ratioTripSoFar * polyline[index].Distance()
-            }
 //          var startLocation = startPoint();
-            timerHandle[index] = setTimeout("animate("+index+","+startLocation+")",2000);  // Allow time for the initial map display
+            timerHandle[index] = setTimeout("animate("+index+","+startLocation+")",200);  // Allow time for the initial map display
             // alert(distanceTotal)
     }
 
