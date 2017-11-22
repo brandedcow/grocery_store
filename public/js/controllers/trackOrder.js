@@ -5,18 +5,21 @@ angular.module('MyApp')
     $scope.var = $rootScope.currentUser;
     $scope.googleMapRequest = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAd3Q644s4HHXat5mvN8xKlyT7pi1A3eYY&callback=initMap"
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
-
+    var distanceTotal = 0;
     $scope.now = new Date();
     $scope.currentTimeStamp = new Date($scope.now.getUTCFullYear(), $scope.now.getUTCMonth(), $scope.now.getUTCDate(),  $scope.now.getUTCHours(), $scope.now.getUTCMinutes(), $scope.now.getUTCSeconds());
     var isSameDay = function(){
 
-      var year = localStorageService.get('trackingInfo').order_date.substring(0, 4)
-      var month = localStorageService.get('trackingInfo').order_date.substring(5, 7)
-      var day = localStorageService.get('trackingInfo').order_date.substring(8, 10)
-      var hour = localStorageService.get('trackingInfo').order_date.substring(11, 13)
+      $scope.orderDate = new Date(localStorageService.get('trackingInfo').order_date)
+      // alert($scope.order)
+
+      // var year = localStorageService.get('trackingInfo').order_date.substring(0, 4)
+      // var month = localStorageService.get('trackingInfo').order_date.substring(5, 7)
+      // var day = localStorageService.get('trackingInfo').order_date.substring(8, 10)
+      // var hour = localStorageService.get('trackingInfo').order_date.substring(11, 13)
       var minute = localStorageService.get('trackingInfo').order_date.substring(14, 16)
-      var second = localStorageService.get('trackingInfo').order_date.substring(17, 19)
-      $scope.orderDate = new Date(year, month-1, day-1, hour, minute, second, 0);
+      // var second = localStorageService.get('trackingInfo').order_date.substring(17, 19)
+      // $scope.orderDate = new Date(year, month-1, day-1, hour, minute, second, 0);
 
       var currentYear = $scope.currentTimeStamp.getFullYear()
       // console.log(currentYear==year)
@@ -27,7 +30,6 @@ angular.module('MyApp')
       var currentSecond = $scope.currentTimeStamp.getSeconds()
 
       $scope.elapsedTime = $scope.now.getTime() - $scope.orderDate.getTime()
-      // alert($scope.elapsedTime)
 
     };
     isSameDay()
@@ -264,6 +266,7 @@ angular.module('MyApp')
 
                 if(distSM >distSJ)
                 {
+                  distanceTotal = distSJ
                   var request = {
                       origin: startLoc[1],
                       destination: endLoc[1],
@@ -273,6 +276,7 @@ angular.module('MyApp')
                 }
                 else
                 {
+                  distanceTotal = distSM
                   var request = {
                       origin: startLoc[0],
                       destination: endLoc[0],
@@ -427,11 +431,20 @@ angular.module('MyApp')
             if (timerHandle[index]) clearTimeout(timerHandle[index]);
             eol[index]=polyline[index].Distance();
             map.setCenter(polyline[index].getPath().getAt(0));
-
             poly2[index] = new google.maps.Polyline({path: [polyline[index].getPath().getAt(0)], strokeColor:"#FFFF00", strokeWeight:3});
-            var startLocation = 1;
+            var distanceTotalInMiles = distanceTotal / 1609.34
+            var msToTravelDistance = distanceTotalInMiles * 60000
+            var ratioTripSoFar = $scope.elapsedTime / msToTravelDistance
+            var startLocation = 0
+            if(ratioTripSoFar >= 1){
+              startLocation = polyline[index].Distance()
+            }
+            else{
+              startLocation = ratioTripSoFar * polyline[index].Distance()
+            }
 //          var startLocation = startPoint();
             timerHandle[index] = setTimeout("animate("+index+","+startLocation+")",2000);  // Allow time for the initial map display
+            // alert(distanceTotal)
     }
 
 
