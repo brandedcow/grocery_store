@@ -368,7 +368,7 @@ angular.module('MyApp')
         marker[index].setPosition(p);
         updatePoly(index,d);
         timerHandle[index] = setTimeout("animate("+index+","+(d+step)+")", tick);
-//        document.getElementById("TimePassed").innerHTML = "<b>Time Passed: </b>"+convertTime(timerHandle[1]*2);
+       document.getElementById("TimePassed").innerHTML = "<b>Time Passed: </b>"+convertTime(timerHandle[1]*2);
     //    console.log(timerHandle[1]);
     }
 
