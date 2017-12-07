@@ -11,7 +11,7 @@ angular.module('MyApp')
       currentTimeStamp = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
       orderDate = new Date(localStorageService.get('trackingInfo').order_date)
       // alert($scope.order)
-
+      // console.log(now, currentTimeStamp, "hi", orderDate);
       elapsedTime = now.getTime() - orderDate.getTime() - 70000
 
     };
