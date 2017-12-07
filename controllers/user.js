@@ -100,6 +100,9 @@ exports.signupPost = function(req, res, next) {
  */
 exports.accountPut = function(req, res, next) {
   if ('password' in req.body) {
+    req.assert('email', 'Email is not valid').isEmail();
+    req.assert('email', 'Email cannot be blank').notEmpty();
+    req.sanitize('email').normalizeEmail({ remove_dots: false });
     req.assert('password', 'Password must be at least 4 characters long').len(4);
     req.assert('confirm', 'Passwords must match').equals(req.body.password);
   } else {
@@ -116,25 +119,54 @@ exports.accountPut = function(req, res, next) {
 
   var user = new User({ id: req.user.id });
   if ('password' in req.body) {
-    user.save({ password: req.body.password }, { patch: true });
+    user.save({
+      email: req.body.email,
+      name: req.body.name,
+      password: req.body.password
+    }, { patch: true })
+    .then(function(user) {
+      if ('password' in req.body) {
+        res.send({ msg: 'Your password has been changed.' });
+      } else {
+        res.send({ user: user, msg: 'Your profile information has been updated.' });
+      }
+      res.redirect('/account');
+    }).catch(function(err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.status(409).send({ msg: 'The email address you have entered is already associated with another account.' });
+      }
+    });
   } else {
     user.save({
       email: req.body.email,
       name: req.body.name,
-    }, { patch: true });
+    }, { patch: true })
+    .then(function(user) {
+      if ('password' in req.body) {
+        res.send({ msg: 'Your password has been changed.' });
+      } else {
+        res.send({ user: user, msg: 'Your profile information has been updated.' });
+      }
+      res.redirect('/account');
+    }).catch(function(err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.status(409).send({ msg: 'The email address you have entered is already associated with another account.' });
+      }
+    });
   }
-  user.fetch().then(function(user) {
-    if ('password' in req.body) {
-      res.send({ msg: 'Your password has been changed.' });
-    } else {
-      res.send({ user: user, msg: 'Your profile information has been updated.' });
-    }
-    res.redirect('/account');
-  }).catch(function(err) {
-    if (err.code === 'ER_DUP_ENTRY') {
-      res.status(409).send({ msg: 'The email address you have entered is already associated with another account.' });
-    }
-  });
+
+  // user.fetch().then(function(user) {
+  //   if ('password' in req.body) {
+  //     res.send({ msg: 'Your password has been changed.' });
+  //   } else {
+  //     res.send({ user: user, msg: 'Your profile information has been updated.' });
+  //   }
+  //   res.redirect('/account');
+  // }).catch(function(err) {
+  //   if (err.code === 'ER_DUP_ENTRY') {
+  //     res.status(409).send({ msg: 'The email address you have entered is already associated with another account.' });
+  //   }
+  // });
 };
 
 /**

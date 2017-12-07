@@ -242,6 +242,9 @@ exports.currentOrderGet = function(req, res, next) {
           res.status(200).send(response[0])
         }
       })
+      .catch(err=>{
+        res.status(400).send(err)
+      })
  }
 
 /**
