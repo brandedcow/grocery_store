@@ -311,9 +311,11 @@ exports.orderPost = function(req, res, next) {
   // change order status
   var inventoryUpdate = subquery.then(function(response) {
       orderNum = response.get('id')
+      // delivery_date = response.get('delivery_date')
       response.save({
         order_status: 2,
-        order_date: new Date()
+        order_date: new Date(),
+        delivery_date: req.body.delivery_date
       },{patch:true})
 
       return bookshelf.knex.raw(

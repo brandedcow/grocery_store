@@ -7,7 +7,7 @@ angular.module('MyApp')
     // $scope.googleMapRequest = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/1200px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg";
     var distanceTotal, now, currentTimeStamp, orderDate, elapsedTime, distanceTotalInMiles, msToTravelDistance, ratioTripSoFar, startLocation;
     var isSameDay = function(){
-      now = new Date();
+      now = new Date(); // returned PST
       currentTimeStamp = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
       orderDate = new Date(localStorageService.get('trackingInfo').order_date)
       // alert($scope.order)

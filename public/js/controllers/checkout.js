@@ -4,6 +4,7 @@ angular.module('MyApp')
       $scope.paid = false
       $scope.getInfo()
       $scope.getAddresses()
+      localStorageService.set('delivery_date', new Date()) // return UT
       $scope.selectedExisting = false;
     }
 
@@ -125,6 +126,8 @@ angular.module('MyApp')
 
     $scope.placeOrder = function() {
       var data = localStorageService.get('chargeData')
+      data['delivery_date'] = localStorageService.get('delivery_date')
+      console.log(data)
       Cart.placeOrder(data)
         .then(function(response) {
           localStorageService.remove('address')
