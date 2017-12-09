@@ -15,6 +15,119 @@ var Product = require('../models/Product')
 var Purchase = require('../models/Purchase').model
 var Purchases = require('../models/Purchase').collection
 var Delivery = require('../models/Delivery')
+function checkIfDelivered(req, res, next) {
+  // find order
+    var now = new Date()
+    nowUTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
+    var subquery = bookshelf.knex
+      .select('id')
+      .from('orders')
+      .where('order_status', 2)
+      .andWhere('delivery_date', '<', 'nowUTC')
+      .then(function(rows){
+        console.log(rows)
+        var arrayOfOrders = []
+        for (var i = 0; i < rows.length; i++) {
+          // orderNum =rows[i].id
+          arrayOfOrders.push(new Order({
+            id: rows[i].id
+          }).fetch())
+        }
+        return arrayOfOrders
+      })
+      .catch(function(response){
+        console.log("error in getting orders with status of 2")// return res.status(400).send(response)
+      })
+    // change order status
+    var inventoryUpdate = subquery.then(function(response) {
+      for (var i = 0; i < response.length; i++) {
+        response[i]._boundTo.save({
+          order_status: 3
+        }, {patch:true})
+      }
+    })
+
+// everything above was not commented
+
+// this is with array
+// var subquery = bookshelf.knex
+//   .select('id')
+//   .from('orders')
+//   .where({
+//     order_status: 3
+//   })
+//   .then(function(rows){
+//     var cool = []
+//     cool.push(new Order({
+//       id: rows[0].id
+//     }).fetch())
+//     return cool
+//   })
+//   .catch(function(response){
+//     console.log("Status of all are already changed")// return res.status(400).send(response)
+//   })
+//
+//
+// var inventoryUpdate = subquery.then(function(response) {
+//   console.log(response[0]._boundTo)
+//   response[0]._boundTo.save({
+//        order_status: 2
+//      },{patch:true})
+// })
+// .catch(function(reponse) {
+//   console.log("All done")
+// })
+
+
+// this is without array
+    // var subquery = bookshelf.knex
+    //   .select('id')
+    //   .from('orders')
+    //   .where({
+    //     order_status: 3
+    //   })
+    //   .then(function(rows){
+    //     cool = new Order({
+    //       id: rows[0].id
+    //     }).fetch()
+    //     return cool
+    //   })
+    //   .catch(function(response){
+    //     console.log("Status of all are already changed")// return res.status(400).send(response)
+    //   })
+    //
+    //
+    // var inventoryUpdate = subquery.then(function(response) {
+    //   console.log(response)
+    //   response.save({
+    //        order_status: 2
+    //      },{patch:true})
+    // })
+    // .catch(function(reponse) {
+    //   console.log("All done")
+    // })
+
+
+    //below this was commented out
+
+    // var inventoryUpdate = subquery.then(function(response) {
+    //     orderNum = response.get('id')
+    //     delivery_date = response.get('delivery_date')
+    //     response.save({
+    //       order_status: 2,
+    //       order_date: new Date(),
+    //       delivery_date: req.body.delivery_date
+    //     },{patch:true})
+    //
+    //     return bookshelf.knex.raw(
+    //       'update products join purchases on products.id = purchases.product_id set products.quantity = products.quantity - purchases.quantity'
+    //     )
+    //   })
+    //   .catch(function(reponse) {
+    //     return res.status(400).send('order status change failed')
+    //   }
+    // )
+}
 
 exports.ensureOrderExists = function(req, res, next) {
   new Order({ customer_id: req.body.customer_id })
@@ -229,6 +342,36 @@ exports.currentOrderGet = function(req, res, next) {
  * GET /order/:id
  */
  exports.orderGet = function(req, res, next) {
+   // find order
+     var now = new Date()
+     nowUTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
+     var subquery = bookshelf.knex
+       .select('id')
+       .from('orders')
+       .where('order_status', 2)
+       .andWhere('delivery_date', '<', nowUTC)
+       .then(function(rows){
+         console.log(rows)
+         var arrayOfOrders = []
+         for (var i = 0; i < rows.length; i++) {
+           // orderNum =rows[i].id
+           arrayOfOrders.push(new Order({
+             id: rows[i].id
+           }).fetch())
+         }
+         return arrayOfOrders
+       })
+       .catch(function(response){
+         console.log("error in getting orders with status of 2")// return res.status(400).send(response)
+       })
+     // change order status
+     var inventoryUpdate = subquery.then(function(response) {
+       for (var i = 0; i < response.length; i++) {
+         response[i]._boundTo.save({
+           order_status: 4
+         }, {patch:true})
+       }
+
       bookshelf.knex.raw(
         `select orders.id, orders.order_date,
         (select name from order_status_types where id = orders.order_status) as order_status,
@@ -239,11 +382,13 @@ exports.currentOrderGet = function(req, res, next) {
         if (!response) {
           res.status(400).send({error: 'no orders found'})
         } else {
+          // response[0][0]['total']
           res.status(200).send(response[0])
         }
       })
       .catch(err=>{
         res.status(400).send(err)
+      })
       })
  }
 
@@ -350,5 +495,8 @@ exports.orderPost = function(req, res, next) {
   //   .catch(function(reponse) {
   //     return res.status(400).send('inventory update failed')
   //   })
+
+
+
 
 }
