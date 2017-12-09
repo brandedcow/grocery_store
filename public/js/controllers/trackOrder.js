@@ -12,7 +12,7 @@ angular.module('MyApp')
       orderDate = new Date(localStorageService.get('trackingInfo').order_date)
       // alert($scope.order)
       // console.log(now, currentTimeStamp, "hi", orderDate);
-      elapsedTime = now.getTime() - orderDate.getTime() - 70000
+      elapsedTime = now.getTime() - orderDate.getTime() - 35000
 
     };
 
