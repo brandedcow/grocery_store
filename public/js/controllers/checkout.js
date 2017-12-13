@@ -215,7 +215,11 @@ angular.module('MyApp')
                 }
                 distanceTotalInMiles = distanceTotal / 1609.34
                 msToTravelDistance = distanceTotalInMiles * 60000
-                time_of_delivery = new Date(Date.now() + msToTravelDistance)
+                now = new Date(Date.now() + msToTravelDistance)
+                date = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+
+                time_of_delivery = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
 
 
 

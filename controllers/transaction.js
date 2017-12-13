@@ -230,35 +230,17 @@ exports.currentOrderGet = function(req, res, next) {
  */
  exports.orderGet = function(req, res, next) {
    // find order
-     var now = new Date()
-     nowUTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
-     var subquery = bookshelf.knex
-       .select('id')
-       .from('orders')
-       .where('order_status', 2)
-       .andWhere('delivery_date', '<', nowUTC)
-       .then(function(rows){
-         console.log(rows)
-         var arrayOfOrders = []
-         for (var i = 0; i < rows.length; i++) {
-           // orderNum =rows[i].id
-           arrayOfOrders.push(new Order({
-             id: rows[i].id
-           }).fetch())
-         }
-         return arrayOfOrders
-       })
-       .catch(function(response){
-         console.log("error in getting orders with status of 2")// return res.status(400).send(response)
-       })
+     let now = new Date()
+     let date = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
+     now = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+
+
+     var subquery = bookshelf.knex.raw(
+       `update orders set order_status=4 where delivery_date < '${now}' and order_status=2;`
+     )
+
      // change order status
      var inventoryUpdate = subquery.then(function(response) {
-       for (var i = 0; i < response.length; i++) {
-         response[i]._boundTo.save({
-           order_status: 4
-         }, {patch:true})
-       }
-     }).then(function(response) {
          bookshelf.knex.raw(
            `select orders.id, orders.order_date,
            (select name from order_status_types where id = orders.order_status) as order_status,
